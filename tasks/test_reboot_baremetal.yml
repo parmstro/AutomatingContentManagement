@@ -1,0 +1,102 @@
+- name: "Set defaults"
+  set_fact:
+    target_mac: "{{ host.mac }}"
+    compute_resource: "{{ host.compute_resource }}"
+
+- name: "Get MAC of bare metal machine"
+  block:
+  - name: Get info on discovered hosts that meet criteria
+    include_tasks: tasks/get_foreman_list.yml
+    vars:
+      sat_resource: "{{ discovered_hosts_resouce }}"
+      sat_search_string: "{{ discovered_hosts_search }}"
+      sat_username: "{{ sat_publisher_username }}"
+      sat_password: "{{ sat_publisher_password }}"
+    # sets variables list and resources
+
+  - set_fact:
+      discovered_hosts_resources: "{{ resources }}"
+    no_log: true
+
+  - set_fact:
+      mac: "{{ item.mac }}"
+      name: "{{ item.name }}"
+    # when condition is using > to account for local interface always in list
+    when: item.facts_hash.interfaces.split(',')|length > discovered_host_req_nic_count 
+    loop: "{{ discovered_hosts_resources }}"
+    register: hosts_macs_results
+    no_log: true
+
+  - debug:
+      var: hosts_macs_results
+
+  - name: "Selecting first discovered host matching criteria"
+    set_fact:
+      target: "{{ hosts_macs_results.results | json_query('[].ansible_facts') | list | first  }}"
+  
+  - set_fact:
+      target_mac: "{{ target.mac }}"
+      target_name: "{{ target.name }}"
+
+  when: host.compute_resource == "Baremetal"
+
+- name: "Deploy the Bare Metal host"
+  redhat.satellite.host:
+    username: "{{ sat_publisher_username }}"
+    password: "{{ sat_publisher_password }}"
+    server_url: "{{ sat_server_url }}"
+    organization: "{{ sat_organization }}"
+    validate_certs: "{{ sat_validate_certs }}"
+    location: "{{ sat_location }}"
+    name: "{{ host.fqdn }}"
+    comment: "{{ host_build_comment }}"
+    hostgroup: "{{ host.hostgroup }}"
+    mac: "{{ target_mac }}"
+    build: true
+    state: present
+    compute_attributes:
+      start: "1"
+  register: deploy_response
+  when: host.compute_resource == "Baremetal" and deploy == true
+
+- debug:
+    var: deploy_response
+  when: debugger == true
+
+- name: Restart the host
+  uri:
+    url: "{{ sat_server_url }}/api/v2/discovered_hosts/{{ target_name }}/reboot"
+    method: PUT
+    user: "{{ sat_publisher_username }}"
+    password: "{{ sat_publisher_password }}"
+    force_basic_auth: yes
+    validate_certs: "{{ sat_validate_certs }}"
+    status_code: 200
+    headers:
+      Content-Type: application/json
+      Accept: :application/json,version=2
+  register: restart_response
+  when: host.compute_resource == "Baremetal"
+
+- debug:
+    var: restart_response
+  when: host.compute_resource == "Baremetal" and debugger == true
+
+- name: Remove the discovered host entry
+  uri:
+    url: "{{ sat_server_url }}/api/v2/discovered_hosts/{{ target_name }}"
+    method: DELETE
+    user: "{{ sat_publisher_username }}"
+    password: "{{ sat_publisher_password }}"
+    force_basic_auth: yes
+    validate_certs: "{{ sat_validate_certs }}"
+    status_code: 200
+    headers:
+      Content-Type: application/json
+      Accept: :application/json,version=2
+  register: remove_response
+  when: host.compute_resource == "Baremetal"
+
+- debug:
+    var: remove_response
+  when: host.compute_resource == "Baremetal" and debugger == true

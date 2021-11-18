@@ -1,0 +1,8 @@
+# Here are variables related to the standalone JBoss installation
+
+http_port: 8080
+https_port: 8443
+sample_app_git_repo: "https://github.com/parmstro/jboss-eap-quickstarts.git"
+sample_app_root: "/samples/jboss"
+sample_app_dir: "helloworld/"
+app_fingerprint: "{{ sample_app_root }}/c0df90d8-5173-4e65-bc82-88b6033fc6a7"

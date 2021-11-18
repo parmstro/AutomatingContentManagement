@@ -1,0 +1,36 @@
+---
+# Update this code for RHEL 8 and modern ansible
+# research PHP deps for wordpress
+
+- name: Install php-fpm and deps for RHEL 7
+  yum:
+    name:
+    - php
+    - php-fpm
+    - php-enchant
+    - php-IDNA_Convert  # not in RHEL 8
+    - php-mbstring
+    - php-mysql
+    - php-PHPMailer     # not in RHEL 8
+    - php-process
+    - php-simplepie     # not in RHEL 8
+    - php-xml
+    state: present
+  when: when:  ansible_distribution_major_version == "7"
+  
+- name: Install the php modules for RHEL 8
+  yum:
+    name: "@php:7.2/common"
+    state: present            # needs to be present vs. latest otherwise will fail
+
+- name: Disable default pool
+  command: "mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.disabled creates=/etc/php-fpm.d/www.disabled"
+  notify: restart php-fpm
+
+- name: Copy php-fpm configuration
+  template: 
+    src: wordpress.conf 
+    dest: /etc/php-fpm.d/
+  notify: restart php-fpm
+
+

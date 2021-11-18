@@ -1,0 +1,22 @@
+---
+# This playbook deploys a simple standalone JBoss server.
+
+- hosts: all
+
+  roles:
+    - jboss-standalone
+  
+  tasks:
+  
+  - name: Place a fingerprint file on the server
+    file:
+      path: "{{ app_fingerprint }}"
+      state: touch 
+
+  - name: Display the application path
+    debug:
+      msg: 
+      - "The application can be found at the following URLs:"
+      - "https://{{ ansible_fqdn }}:{{ https_port }}/{{ sample_app_dir }}"
+      - "http://{{ ansible_fqdn }}:{{ http_port }}/{{ sample_app_dir }}"
+

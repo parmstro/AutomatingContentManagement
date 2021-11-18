@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <title>Smoke Test Application</title>
+  </head>
+  <body>
+    <H1>
+    <br/>
+    <a href=http://{{ ansible_fqdn }}/index.html>Homepage</a>
+    <br/>
+    <a href=http://{{ ansible_fqdn }}/about.html>About</a>
+    </H1>
+    <br/>
+    <br/>
+    <H2>
+    <?php 
+    Print "Hello, World! Smoke Testing our LAMP Deployment using Ansible and this host is: ";
+    echo exec('hostname');
+    Print  "</BR>";
+    Print  "</BR>";
+    
+    echo  "List of Databases: </BR>";
+    Print  "</H2>";
+    Print  "<H3>";
+        {% for host in groups['dbservers'] %}
+                $link = mysqli_connect('{{ hostvars[host].ansible_default_ipv4.address }}', '{{ hostvars[host].dbuser }}', '{{ hostvars[host].upassword }}') or die(mysqli_connect_error($link));
+        {% endfor %}
+        $res = mysqli_query($link, "SHOW DATABASES;");
+        while ($row = mysqli_fetch_assoc($res)) {
+                echo $row['Database'] , "<BR/>";
+        }
+    Print  "</H3>";
+    ?>
+    <H3><B> Latest Country Statistics from Nation Database </B></H3>
+    <BR/>
+    <table border="0" align="left">
+      <tr>
+        <td>Country Name</td>
+        <td>Area (km^2)</td>
+        <td>Population</td>
+        <td>GDP (USD)</td>
+        <td>Population Density (people/km^2)</td>
+        <td>GDP Density (USD/person)</td>
+        <td>Year</td>
+      </tr>
+
+      <?php
+
+      $query = mysqli_query($dbconnect, "SELECT C.name,  C.country_code2,  C.area, CS.population, CS.gdp, CS.population/C.area as "density", CS.gdp/CS.population as "gdp_density", CS.year FROM countries C  INNER JOIN country_stats CS ON C.country_id = CS.country_id  WHERE CS.year = (SELECT max(year) FROM country_stats) ;")
+      or die (mysqli_error($dbconnect));
+
+      while ($row = mysqli_fetch_array($query)) {
+      echo
+      "<tr>
+        <td>{$row['name']}</td>
+        <td>{$row['area']}</td>
+        <td>{$row['population']}</td>
+        <td>{$row['density']}</td>
+        <td>{$row['gdp_density']}</td>
+        <td>{$row['year']}</td>
+      </tr>\n";
+
+      }
+
+      ?>
+    </table>
+  </body>
+</html>
+

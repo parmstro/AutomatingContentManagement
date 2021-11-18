@@ -1,0 +1,50 @@
+---
+# This play undeploys a sample app previously deployed by the main.yml play
+# This checks for the deployed app on the server
+# If found, undeploys it. If not, exits assuming it is already gone.
+#
+- name: Undeploy a previously deployed sample app
+  hosts: all
+  tasks:
+
+  - name: Ensure to see if JBoss EAP is running
+    service:
+      name: eap7-standalone.service
+      enabled: true
+      state: started
+
+  - name: Ensure that we deployed the app
+    stat:
+      path: "{{ app_fingerprint }}"
+    register: fingerprint
+
+  - name: Undeploy the app if our fingerprints exist
+    block:
+    - name: undeploy the sample app
+      command:
+        chdir: "{{ sample_app_root }}/{{ sample_app_dir }}"
+        cmd: "mvn wildfly:undeploy"
+
+    - name: Ensure that firewalld is started
+      service:
+        name: firewalld
+        state: started
+  
+    - name: Close the firewall ports used
+      firewalld:
+        immediate: yes
+        port: "{{ port_protocol }}"
+        state: disabled 
+        permanent: yes
+      loop:
+      - "{{ http_port }}/tcp"
+      - "{{ https_port }}/tcp"
+      loop_control:
+        loop_var: port_protocol
+
+    - name: Clean up fingerprints
+      file:
+        path: "{{ app_fingerprint }}"
+        state: absent
+
+    when: fingerprint.stat.exists == true

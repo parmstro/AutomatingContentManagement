@@ -1,0 +1,12 @@
+---
+# This play creates the configured Content Views and Composite Content Views for the Satellite
+# This is intended for initial creation than CV/CCV general maintenance.
+# This is intended for use with an Ansible Automation Platform Workflow
+# The inventory should be a list of satellite servers to create the content views on
+
+- name: Create the configured Content Views and Composite Content Views
+  hosts: all
+ 
+  roles:
+  - cvcreator
+  

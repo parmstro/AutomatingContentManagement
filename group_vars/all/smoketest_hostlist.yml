@@ -1,0 +1,37 @@
+---
+# A valid mac is required when using bare metal as compute resource
+# this can come from a query of satellites available discovered hosts or
+# be a known value - for all other compute resources, the mac is assigned by
+# the compute resource
+sat_publisher_username: "{{ vault_sat_publisher_username }}"
+sat_publisher_password: "{{ vault_sat_publisher_password }}"
+sat_server_url: "https://sat6.parmstrong.ca"
+sat_organization: "Default Organization"
+sat_location: "Default Location"
+
+discovered_hosts_resouce: "discovered_hosts"
+discovered_hosts_search: "disk_count = 2 and memory > 32000"
+discovered_host_req_nic_count: 3  #we use > below so does not include lo 
+host_build_comment: "Created by ansible for smoke test - Delete Me"
+debugger: true
+deploy: true
+
+hostlist:
+  - fqdn: "testdrupal.parmstrong.ca"
+    hostgroup: "baseRHEL8"
+    compute_resource: "Baremetal"
+    compute_profile: ""
+    mac: "00:50:56:ff:ff:ff"
+    dhostname: ""
+  - fqdn: "testjboss.parmstrong.ca"
+    hostgroup: "baseRHEL8/JBossSOE"
+    compute_resource: "vcenter.parmstrong.ca"
+    compute_profile: "2-Medium"
+    mac: "00:50:56:ff:ff:ff"
+    dhostname: ""
+  - fqdn: "testlamp.parmstrong.ca"
+    hostgroup: "baseRHEL8"
+    compute_resource: "vcenter.parmstrong.ca"
+    compute_profile: "2-Medium"
+    mac: "00:50:56:ff:ff:ff"
+    dhostname: ""

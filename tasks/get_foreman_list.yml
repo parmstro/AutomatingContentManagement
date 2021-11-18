@@ -1,0 +1,25 @@
+---
+# This task retrieves a list of items and the details for each item
+# 
+
+- name: Get search results from Satellite
+  redhat.satellite.resource_info:
+    username: "{{ sat_username }}"
+    password: "{{ sat_password }}"
+    server_url: "{{ sat_server_url }}"
+#    organization: "{{ sat_organization }}"
+#    params: "{{ sat_additional_params }}"
+    resource: "{{ sat_resource }}"
+    search: "{{ sat_search_string }}"
+    full_details: true 
+    validate_certs: "{{ sat_validate_certs }}"
+  register: results 
+
+- set_fact:
+    list: "{{ results.resources | json_query('[*].name') }}"
+
+- set_fact:
+    resources: "{{ results.resources }}"
+  
+
+

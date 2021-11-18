@@ -1,0 +1,14 @@
+---
+# this file is named after the dbservers group so it is automatically imported
+# for the hosts in that group
+# the we reference vaulted variables here, they will be pulled in with the vault
+# variables file
+# you will need to replace the encrypted vault.yml file with your own 
+# that contains the vault_ prefixed variables 
+
+mysqlservice: "mysqld"
+mysql_port: 3306
+dbuser: "{{ vault_dbuser }}"               
+dbname: "{{ vault_dbname }}"               
+upassword: "{{ vault_dbuser_password }}"   
+install_grafana: false
