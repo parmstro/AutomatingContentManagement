@@ -1,0 +1,16 @@
+---
+# do the actual snapshot action
+
+  - name: Snapshot Action
+    community.vmware.vmware_guest_snapshot:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      datacenter: "{{ datacenter_name }}"
+      folder: "/{{ datacenter_name }}/{{ datacenter_folder }}/"
+      name: "{{ item.name }}"
+      state: "{{ current_state }}"
+      snapshot_name: "{{ item.snap_name }}"
+      description: "{{ item.snap_description }}"
+      quiesce: "{{ item.quiesce }}"
+    delegate_to: localhost
