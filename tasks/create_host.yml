@@ -1,7 +1,7 @@
 - name: "Set defaults"
   set_fact:
-    target_mac: "{{ host.mac }}"
-    compute_resource: "{{ host.compute_resource }}"
+    target_mac: "{{ mac }}"
+    compute_resource: "{{ compute_resource }}"
 
 - name: "Get MAC of bare metal machine"
   block:
@@ -19,8 +19,8 @@
     no_log: true
 
   - set_fact:
-      mac: "{{ item.mac }}"
-      name: "{{ item.name }}"
+      mac: "{{ mac }}"
+      name: "{{ name }}"
     # when condition is using > to account for local interface always in list
     when: item.facts_hash.interfaces.split(',')|length > discovered_host_req_nic_count 
     loop: "{{ discovered_hosts_resources }}"
@@ -46,7 +46,8 @@
         
     when: debugger == true
   
-  when: host.compute_resource == "Baremetal"
+  when: compute_resource == "Baremetal" and mac == "ff:ff:ff:ff:ff:ff"
+  delegate_to: localhost
 
 - name: "Deploy the virtual host"
   redhat.satellite.host:
@@ -55,18 +56,19 @@
     server_url: "{{ sat_server_url }}"
     organization: "{{ sat_organization }}"
     location: "{{ sat_location }}"
-    name: "{{ host.fqdn }}"
+    name: "{{ fqdn }}"
     comment: "{{ host_build_comment }}"
-    hostgroup: "{{ host.hostgroup }}"
+    hostgroup: "{{ hostgroup }}"
     compute_resource: "{{ compute_resource }}"
-    compute_profile: "{{ host.compute_profile }}"
+    compute_profile: "{{ compute_profile }}"
     mac: "{{ target_mac }}"
     build: true
     state: present
     compute_attributes:
       start: "1"
   register: deploy_response
-  when: host.compute_resource != "Baremetal" and deploy == true
+  when: compute_resource != "Baremetal" and deploy == true
+  delegate_to: localhost
 
 - name: "Deploy the Bare Metal host"
   redhat.satellite.host:
@@ -75,16 +77,17 @@
     server_url: "{{ sat_server_url }}"
     organization: "{{ sat_organization }}"
     location: "{{ sat_location }}"
-    name: "{{ host.fqdn }}"
+    name: "{{ fqdn }}"
     comment: "{{ host_build_comment }}"
-    hostgroup: "{{ host.hostgroup }}"
+    hostgroup: "{{ hostgroup }}"
     mac: "{{ target_mac }}"
     build: true
     state: present
     compute_attributes:
       start: "1"
   register: deploy_response
-  when: host.compute_resource == "Baremetal" and deploy == true
+  when: compute_resource == "Baremetal" and deploy == true
+  delegate_to: localhost
 
 - debug:
     var: deploy_response
@@ -103,11 +106,12 @@
       Content-Type: application/json
       Accept: :application/json,version=2
   register: restart_response
-  when: host.compute_resource == "Baremetal"
+  when: compute_resource == "Baremetal"
+  delegate_to: localhost
 
 - debug:
     var: restart_response
-  when: host.compute_resource == "Baremetal" and debugger == true
+  when: compute_resource == "Baremetal" and debugger == true
 
 - name: Remove the discovered host entry
   uri:
@@ -122,8 +126,9 @@
       Content-Type: application/json
       Accept: :application/json,version=2
   register: remove_response
-  when: host.compute_resource == "Baremetal"
+  when: compute_resource == "Baremetal"
+  delegate_to: localhost
 
 - debug:
     var: remove_response
-  when: host.compute_resource == "Baremetal" and debugger == true
+  when: compute_resource == "Baremetal" and debugger == true
