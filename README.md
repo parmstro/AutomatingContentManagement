@@ -21,16 +21,16 @@ In the Part 2 blog post, there is a chart that explains what goes where. It is c
 
 | Template Name  | Type | Inventory               | Playbook        | Credentials |
 |----------------|------|-----------              |----------       |-------------|
-| PublishContent | Run  | TheAutomationController | PublishOnly.yml | SSH:default Vault:satellite |
-| PromoteToDev   | Run  | TheAutomationController | PromoteOnly.yml | SSH:default Vault:satellite |
-| CreateTestEnv  | Run  | TheAutomationController | CreateHostFromHostGroup.yml | SSH:default Vault:satellite |
-| CreateSnaps    | Run  | TheAutomationController | vmware/create_snapshot_vm.yml | SSH:default Vault:vmware  |
-| BuildLAMP      | Run  | testinventory [LAMP]    |
-| BuildJBoss     | Run  | testinventory [JBOSS]   |
-| BuildWordPress | Run  | testinventory [WP]      |
-| PromoteToQA    | Run  | TheAutomationController | PromoteOnly.yml | SSH:default Vault:satellite |
-| RevertSnaps    | Run  | TheAutomationController | vmware/revert_snapshot_vm.yml | SSH:default Vault:satellite |
-| MonthlyContent | Workflow | n/a | n/a | n/a |
+| ACM1PublishContent | Run  | TheAutomationController | PublishOnly.yml | SSH:default Vault:satellite |
+| ACM2PromoteToDev   | Run  | TheAutomationController | PromoteOnly.yml | SSH:default Vault:satellite |
+| ACM3CreateTestEnv  | Run  | TheAutomationController | CreateHostFromHostGroup.yml | SSH:default Vault:satellite |
+| ACM4CreateSnapshots| Run  | TheAutomationController | vmware/create_snapshot_vm.yml | SSH:default Vault:vmware  |
+| ACM5BuildLAMP      | Run  | testinventory [LAMP]    |
+| ACM5BuildJBoss     | Run  | testinventory [JBOSS]   |
+| ACM5BuildWordPress | Run  | testinventory [WP]      |
+| ACM6PromoteToQA    | Run  | TheAutomationController | PromoteOnly.yml | SSH:default Vault:satellite |
+| ACM7DeleteSnaps    | Run  | TheAutomationController | vmware/delete_snapshot_vm.yml | SSH:default Vault:satellite |
+| ACMWMonthlyContent | Workflow | n/a | n/a | n/a |
 
 
 If you have problems with the code functionality please create an issue so that we can work together to resolve it.
