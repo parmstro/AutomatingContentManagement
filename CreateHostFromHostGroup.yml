@@ -2,7 +2,7 @@
 # This play creates a host of a defined name from a defined hostgroup
 - name: Publish and Promote the configured Content Views and Composite Content Views
   hosts: all
-
+  gather_facts: false
 
   tasks:
   - name: "Create the host"
