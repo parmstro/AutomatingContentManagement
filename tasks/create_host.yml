@@ -49,6 +49,7 @@
   when: compute_resource == "Baremetal" and mac == "ff:ff:ff:ff:ff:ff"
   delegate_to: localhost
 
+# using sync'd content - this is messy
 - name: "Deploy the virtual host"
   redhat.satellite.host:
     username: "{{ sat_publisher_username }}"
@@ -59,6 +60,7 @@
     name: "{{ fqdn }}"
     comment: "{{ host_build_comment }}"
     hostgroup: "{{ hostgroup }}"
+    kickstart_repository: "{{ kickstart_repository }}"
     compute_resource: "{{ compute_resource }}"
     compute_profile: "{{ compute_profile }}"
     mac: "{{ target_mac }}"
