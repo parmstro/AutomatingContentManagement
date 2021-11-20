@@ -1,6 +1,7 @@
 # CreateHostFromHostGroup.yml
 # This play creates a host of a defined name from a defined hostgroup
-- name: Publish and Promote the configured Content Views and Composite Content Views
+# we can't gather facts because the hosts dont exist yet
+- name: Create the test hosts for Automated Content Management publishing
   hosts: all
   gather_facts: false
 
@@ -16,7 +17,7 @@
       timeout: 3600
       sleep: 60
       port: 22
-      host: "{{ ansible_fqdn }}"
+      host: "{{ inventory_hostname }}"
       search_regex: OpenSSH
       delay: 300
     connection: local
