@@ -11,6 +11,9 @@
       
   # Don't assume the inventory_hostname is resolvable immediately
   # This is a long process so we can delay 300 seconds at start
+  - name: Pausing for 300s
+    debug:
+      msg: "Call to wait_for is on 300s delay - log will display when it first executes"
 
   - name: Wait 1h for systems to come up on port 22 and contain "OpenSSH" - checking every 60s
     wait_for:
