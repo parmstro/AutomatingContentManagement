@@ -1,5 +1,6 @@
 ---
 collections: 
-- redhat.satellite
+- name: redhat.satellite
+- name: community.vmware
  
  
