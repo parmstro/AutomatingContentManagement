@@ -1,7 +1,5 @@
 ---
 collections: 
 - name: redhat.satellite
-- name: community.vmware
-  src: https://github.com/ansible-collections/community.vmware.git
- 
+
  
