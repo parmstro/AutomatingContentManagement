@@ -4,29 +4,29 @@
 # requires proper Red Hat Subscriptions to be attached
 
 - name: Ensure repos are available
-  rhsm_repository:
+  community.general.rhsm_repository:
     name: jb-eap-7.3-for-rhel-8-x86_64-rpms
   when: ansible_distribution_major_version == "8"
 
 - name: Ensure repos are available
-  rhsm_repository:
+  community.general.rhsm_repository:
     name: jb-eap-7.3-for-rhel-7-x86_64-rpms
   when: ansible_distribution_major_version == "7"
 
 - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
-  yum:
+  ansible.builtin.yum:
     name: "@jboss-eap7"
     state: latest
 
 - name: Install Maven and git
-  yum:
+  ansible.builtin.yum:
     name: 
       - maven
       - git
     state: "latest"
 
 - name: Configure the JBoss EAP 7 Standalone Service
-  service:
+  ansible.builtin.service:
     name: eap7-standalone.service
     enabled: true
     state: started
@@ -36,27 +36,27 @@
 
 # clone the jboss-developer github repo for sample apps
 - name: Clone the jboss-developer github repo for sample apps
-  git:
+  ansible.builtin.git:
     repo: "{{ sample_app_git_repo }}"
     dest: "{{ sample_app_root }}"
 
 - name: build and deploy the sample app
-  command:
+  ansible.builtin.command:
     chdir: "{{ sample_app_root }}/{{ sample_app_dir }}"
     cmd: "mvn clean install wildfly:deploy"
 
 - name: Ensure that firewalld is installed
-  yum:
+  ansible.builtin.yum:
     name: firewalld
     state: latest
   
 - name: Ensure that firewalld is started
-  service:
+  ansible.builtin.service:
     name: firewalld
     state: started
   
 - name: deploy firewalld rules
-  firewalld:
+  ansible.posix.firewalld:
     immediate: yes
     port: "{{ port_protocol }}"
     state: enabled
