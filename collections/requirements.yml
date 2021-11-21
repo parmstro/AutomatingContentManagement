@@ -1,5 +1,8 @@
 ---
 collections: 
-- name: redhat.satellite
+- redhat.satellite
+- community.general
+- community.postgresql
+- community.mysql
 
  
