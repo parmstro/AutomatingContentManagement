@@ -2,41 +2,41 @@
 # These tasks install grafana server and the world map pluging
 
 - name: install the grafana packages
-  yum:
+  ansible.builtin.yum:
     name: grafana
     state: present      
     # This installs the default grafana appstream in the backgound
     # This includes the MySQL data source plugin for grafana
   
 - name: Install the World Map Plugin using the grafana cli
-  command: "grafana-cli plugins install grafana-worldmap-panel"
+  ansible.builtin.command: "grafana-cli plugins install grafana-worldmap-panel"
 
 - name: Ensure firewalld is running
-  service:
+  ansible.builtin.service:
     name: firewalld
     state: started
 
 - name: Open the firewall ports for grafana
-  firewalld:
+  ansible.posix.firewalld:
     ports: "{{ grafana_port }}"
     permanent: true
     immediate: true
     state: enabled
 
 - name: Ensure the base tomcat engine is stopped and disabled
-  service:
+  ansible.builtin.service:
     name: httpd
     state: stopped
     disabled: true
 
 - name: Ensure the grafana server is restarted and enabled
-  service:
+  ansible.builtin.service:
     name: grafana-server
     state: restarted
     enabled: true
 
 - name: Copy the grafana queries to the server
-  copy:
+  ansible.builtin.copy:
     src: "files/{{ item }}"
     dest: "/root/{{ item }}"
   loop:
