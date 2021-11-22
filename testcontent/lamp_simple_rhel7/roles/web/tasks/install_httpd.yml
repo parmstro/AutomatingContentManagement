@@ -2,7 +2,7 @@
 # These tasks install http and the php modules.
 
 - name: Install httpd and php for RHEL 7
-  yum: 
+  ansible.builtin.yum: 
     name:
     - httpd
     - php
@@ -11,7 +11,7 @@
   when: ansible_distribution_major_version == "7"
 
 - name: Install httpd and php for RHEL 8
-  yum: 
+  ansible.builtin.yum: 
     name:
     - httpd
     - php
@@ -20,26 +20,26 @@
   when: ansible_distribution_major_version == "8"
 
 - name: Start firewalld
-  service: 
+  ansible.builtin.service: 
     name: firewalld 
     state: started 
     enabled: true
 
 - name: insert firewalld rule for httpd
-  firewalld: 
+  ansible.posix.firewalld: 
     port: "{{ httpd_port }}/tcp"
     permanent: true
     immediate: true
     state: enabled
 
 - name: http service state
-  service: 
+  ansible.builtin.service: 
     name: httpd 
     state: started 
     enabled: true
 
 - name: Configure SELinux to allow httpd to connect to remote database
-  seboolean: 
+  ansible.posix.seboolean: 
     name: httpd_can_network_connect_db 
     state: true 
     persistent: true

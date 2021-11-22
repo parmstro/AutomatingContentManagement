@@ -3,7 +3,7 @@
 # the version control system.
 
 - name: Copy the code
-  copy: 
+  ansible.builtin.copy: 
     src: files/{{ item }} 
     dest: /var/www/html/{{ item }}
   loop:
@@ -11,6 +11,6 @@
     - about.html
 
 - name: Creates the index.php file
-  template: 
+  ansible.builtin.template: 
     src: index.php.j2 
     dest: /var/www/html/index.php
