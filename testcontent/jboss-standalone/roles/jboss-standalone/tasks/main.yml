@@ -8,7 +8,7 @@
 
     - name: Ensure repos are available
       community.general.rhsm_repository:
-        name: jb-eap-7.3-for-rhel-7-x86_64-rpms
+        name: jb-eap-7.4-for-rhel-7-x86_64-rpms
   
     - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
       ansible.builtin.yum:
@@ -22,7 +22,7 @@
 
     - name: Ensure repos are available
       community.general.rhsm_repository:
-        name: jb-eap-7.3-for-rhel-8-x86_64-rpms
+        name: jb-eap-7.4-for-rhel-8-x86_64-rpms
   
     - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
       ansible.builtin.dnf:
