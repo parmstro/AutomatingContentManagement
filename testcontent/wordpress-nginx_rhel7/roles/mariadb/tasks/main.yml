@@ -1,7 +1,7 @@
 ---
 # We will use modules for RHEL8
 - name: Install MariaDB packages for RHEL7
-  yum: 
+  ansible.builtin.yum: 
     name: 
     - "mariadb-server"
     - "python"
@@ -10,7 +10,7 @@
   when: ansible_distribution_major_version == "7"
 
 - name: Install MariaDB AppStreams for RHEL 8
-  dnf: 
+  ansible.builtin.dnf: 
     name: 
     - "@mariadb:10.3/server"
     - "@python36"
@@ -19,37 +19,37 @@
   when: ansible_distribution_major_version == "8"
 
 - name: Ensure Python3 is the default python on RHEL8 because sample app is old
-  command: "alternatives --set python /usr/bin/python3"
+  ansible.builtin.command: "alternatives --set python /usr/bin/python3"
   when: ansible_distribution_major_version == "8"
   
 - name: Configure SELinux to allow mysql port {{ mysql_port }}
-  seport: 
+  community.general.seport: 
     ports: "{{ mysql_port }}"
     proto: tcp 
     setype: mysqld_port_t
     state: present
 
 - name: Deploy the Mysql configuration file
-  template: 
+  ansible.builtin.template: 
     src: my.cnf.j2 
     dest: /etc/my.cnf
   notify:
   - restart mariadb
 
 - name: Start MariaDB Service
-  service:
+  ansible.builtin.service:
     name: mariadb 
     state: started
     enabled: true
 
 - name: Ensure firewalld has been started in order to add rules
-  service: 
+  ansible.builtin.service: 
     name: firewalld
     state: started
     enabled: true
 
 - name: Add firewall rules
-  firewalld: 
+  ansible.posix.firewalld: 
     port: "{{ mysql_port }}/tcp"
     permanent: true
     immediate: true

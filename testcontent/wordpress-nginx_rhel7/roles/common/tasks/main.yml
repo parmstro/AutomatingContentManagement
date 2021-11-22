@@ -1,23 +1,25 @@
 ---
+# The systems have to have these repos in the content view.
+
 - name: Ensure repos are available on RHEL 8
-  rhsm_repository:
+  community.general.rhsm_repository:
     name: 
       - EPEL8_RPMS
       - EPEL8_Streams
   when: ansible_distribution_major_version == "8"
 
 - name: Ensure repos are available on RHEL 7
-  rhsm_repository:
+  community.general.rhsm_repository:
     name: EPEL7
   when: ansible_distribution_major_version == "7"
 
 - name: Install Firewalld
-  yum: 
+  community.builtin.yum: 
     name: firewalld 
     state: latest
 
 - name: Firewalld service state
-  service: 
+  community.builtin.service: 
     name: firewalld 
     state: started 
     enabled: true
