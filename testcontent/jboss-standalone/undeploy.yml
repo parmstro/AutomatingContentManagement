@@ -8,30 +8,30 @@
   tasks:
 
   - name: Ensure to see if JBoss EAP is running
-    service:
+    ansible.builtin.service:
       name: eap7-standalone.service
       enabled: true
       state: started
 
   - name: Ensure that we deployed the app
-    stat:
+    ansible.builtin.stat:
       path: "{{ app_fingerprint }}"
     register: fingerprint
 
   - name: Undeploy the app if our fingerprints exist
     block:
     - name: undeploy the sample app
-      command:
+      ansible.builtin.command:
         chdir: "{{ sample_app_root }}/{{ sample_app_dir }}"
         cmd: "mvn wildfly:undeploy"
 
     - name: Ensure that firewalld is started
-      service:
+      ansible.builtin.service:
         name: firewalld
         state: started
   
     - name: Close the firewall ports used
-      firewalld:
+      ansible.posix.firewalld:
         immediate: yes
         port: "{{ port_protocol }}"
         state: disabled 
@@ -43,7 +43,7 @@
         loop_var: port_protocol
 
     - name: Clean up fingerprints
-      file:
+      ansible.builtin.file:
         path: "{{ app_fingerprint }}"
         state: absent
 
