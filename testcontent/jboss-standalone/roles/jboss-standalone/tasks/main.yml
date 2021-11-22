@@ -14,6 +14,7 @@
     ansible.builtin.yum:
       name: "@jboss-eap7"
       state: latest
+
   when: ansible_distribution_major_version == "7"
 
 - name: Begin install on RHEL8 Host
@@ -24,12 +25,13 @@
       name: jb-eap-7.3-for-rhel-8-x86_64-rpms
   
     - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
-    ansible.builtin.dnf:
-      name:
-        - "@python36/common" 
-        - "@javapackages-runtime/common"
-        - "@jboss-eap7"
-      state: present
+      ansible.builtin.dnf:
+        name:
+          - "@python36/common" 
+          - "@javapackages-runtime/common"
+          - "@jboss-eap7"
+        state: present
+
   when: ansible_distribution_major_version == "8"
 
 - name: Install Maven and git
