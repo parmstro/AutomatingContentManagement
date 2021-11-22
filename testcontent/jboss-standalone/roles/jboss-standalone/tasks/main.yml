@@ -6,23 +6,23 @@
 - name: Begin install on RHEL7 Host
   block:
 
-  - name: Ensure repos are available
-    community.general.rhsm_repository:
-      name: jb-eap-7.3-for-rhel-7-x86_64-rpms
+    - name: Ensure repos are available
+      community.general.rhsm_repository:
+        name: jb-eap-7.3-for-rhel-7-x86_64-rpms
   
-  - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
-    ansible.builtin.yum:
-      name: "@jboss-eap7"
-      state: latest
+    - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
+      ansible.builtin.yum:
+        name: "@jboss-eap7"
+        state: latest
 
   when: ansible_distribution_major_version == "7"
 
 - name: Begin install on RHEL8 Host
   block:
 
-  - name: Ensure repos are available
-    community.general.rhsm_repository:
-      name: jb-eap-7.3-for-rhel-8-x86_64-rpms
+    - name: Ensure repos are available
+      community.general.rhsm_repository:
+        name: jb-eap-7.3-for-rhel-8-x86_64-rpms
   
     - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
       ansible.builtin.dnf:
