@@ -3,12 +3,6 @@
 # this can come from a query of satellites available discovered hosts or
 # be a known value - for all other compute resources, the mac is assigned by
 # the compute resource
-sat_publisher_username: "{{ vault_sat_publisher_username }}"
-sat_publisher_password: "{{ vault_sat_publisher_password }}"
-sat_server_url: "https://sat6.parmstrong.ca"
-sat_organization: "Default Organization"
-sat_location: "Default Location"
-
 discovered_hosts_resouce: "discovered_hosts"
 discovered_hosts_search: "disk_count = 1 and memory > 32000"
 discovered_host_req_nic_count: 1  #we use > below so does not include lo 

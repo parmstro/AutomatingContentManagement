@@ -1,5 +1,5 @@
-sat_server_url: "https://satellite.zjpfn.dynamic.opentlc.com/"
-sat_organization: "MyCorp"
+sat_server_url: "https://sat6.parmstrong.ca/"
+sat_organization: "Default_Organization"
 sat_publisher_username: "{{ vault_sat_publisher_username }}"
 sat_publisher_password: "{{ vault_sat_publisher_password }}"
 sat_validate_certs: true
