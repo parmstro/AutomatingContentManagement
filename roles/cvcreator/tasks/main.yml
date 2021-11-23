@@ -7,6 +7,6 @@
 - name: "Process the list of content views"
   include_tasks: create_cv.yml
   loop: "{{ content_views }}"
-    loop_control:
-      loop_var: cv
-    when: content_views is defined
+  loop_control:
+    loop_var: cv
+  when: content_views is defined
