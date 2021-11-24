@@ -30,21 +30,16 @@ content_views:
       description: "Include all packages with no errata for all repositories"
       original_packages: true
       repositories: "[]"
-    - name: "AllStreamsNoErrata"
-      type: "module"
-      inclusion: "true"
-      description: "Include all packages with no errata for all repositories"
-      original_packages: true
-      repositories: "[]"
+    # No Streams in RHEL7
     - name: "ErrataByDate"
       type: "erratum"
       inclusion: "true"
-      description: "Include all errata updated as of the 1st of the month"
+      description: "Include all errata updated as of {{ filter_enddate }}"
       repositories: "[]"
       rules:
       - name: "errata-by-date-{{ filter_enddate }}"
         end_date: "{{ filter_enddate }}"
-        date_type: "issued"
+        date_type: "updated"
         types:
         - "enhancement"
         - "bugfix"
@@ -93,7 +88,7 @@ content_views:
       original_packages: true
       repositories: "[]"
     - name: "AllStreamsNoErrata"
-      type: "module"
+      type: "modulemd"
       inclusion: "true"
       description: "Include all packages with no errata for all repositories"
       original_packages: true
@@ -101,12 +96,12 @@ content_views:
     - name: "ErrataByDate"
       type: "erratum"
       inclusion: "true"
-      description: "Include all errata updated as of the 1st of the month"
+      description: "Include all errata updated as of {{ filter_enddate }}"
       repositories: "[]"
       rules:
       - name: "errata-by-date-{{ filter_enddate }}"
         end_date: "{{ filter_enddate }}"
-        date_type: "issued"
+        date_type: "updated"
         types:
         - "enhancement"
         - "bugfix"
@@ -156,21 +151,16 @@ content_views:
       description: "Include all packages with no errata for all repositories"
       original_packages: true
       repositories: "[]"
-    - name: "AllStreamsNoErrata"
-      type: "module"
-      inclusion: "true"
-      description: "Include all packages with no errata for all repositories"
-      original_packages: true
-      repositories: "[]"
+    # No Streams in RHEL 7
     - name: "ErrataByDate"
       type: "erratum"
       inclusion: "true"
-      description: "Include all errata updated as of the 1st of the month"
+      description: "Include all errata updated as of {{ filter_enddate }}"
       repositories: "[]"
       rules:
       - name: "errata-by-date-{{ filter_enddate }}"
         end_date: "{{ filter_enddate }}"
-        date_type: "issued"
+        date_type: "updated"
         types:
         - "enhancement"
         - "bugfix"
@@ -218,12 +208,12 @@ content_views:
     - name: "ErrataByDate"
       type: "erratum"
       inclusion: "true"
-      description: "Include all errata updated as of the 1st of the month"
+      description: "Include all errata updated as of {{ filter_enddate }}"
       repositories: "[]"
       rules:
       - name: "errata-by-date-{{ filter_enddate }}"
         end_date: "{{ filter_enddate }}"
-        date_type: "issued"
+        date_type: "updated"
         types:
         - "enhancement"
         - "bugfix"
@@ -263,12 +253,12 @@ content_views:
     - name: "ErrataByDate"
       type: "erratum"
       inclusion: "true"
-      description: "Include all errata updated as of the 1st of the month"
+      description: "Include all errata updated as of {{ filter_enddate }}"
       repositories: "[]"
       rules:
       - name: "errata-by-date-{{ filter_enddate }}"
         end_date: "{{ filter_enddate }}"
-        date_type: "issued"
+        date_type: "updated"
         types:
         - "enhancement"
         - "bugfix"
@@ -304,4 +294,4 @@ composite_content_views:
     - "SOE_Qualification"
     - "SOE_Production"
     - "App_Development"
-
+    
