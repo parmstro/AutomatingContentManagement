@@ -1,5 +1,6 @@
 sat_server_url: "https://sat6.parmstrong.ca/"
 sat_organization: "Default_Organization"
+sat_location: "Default_Location"
 sat_publisher_username: "{{ vault_sat_publisher_username }}"
 sat_publisher_password: "{{ vault_sat_publisher_password }}"
 sat_validate_certs: true
