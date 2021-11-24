@@ -5,7 +5,6 @@
 
 - name: Create hosts from specified Satellte/Foreman hostgroups
   hosts: all
-  connection: local
   gather_facts: false
 
   tasks:
