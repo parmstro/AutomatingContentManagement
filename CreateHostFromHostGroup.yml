@@ -4,7 +4,7 @@
 # we can't gather facts because the hosts dont exist yet
 
 - name: Create hosts from specified Satellte/Foreman hostgroups
-  hosts: localhost
+  hosts: all
   connection: local
   gather_facts: false
 
