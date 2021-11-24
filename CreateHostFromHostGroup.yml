@@ -1,7 +1,7 @@
 # CreateHostFromHostGroup.yml
 # This play creates a host of a defined name from a defined hostgroup
 # we can't gather facts because the hosts dont exist yet
-- name: Create the test hosts for Automated Content Management publishing
+- name: Create hosts from specified Satellte/Foreman hostgroups
   hosts: all
   gather_facts: false
 

@@ -1,8 +1,5 @@
-sat_server_url: "https://sat6.parmstrong.ca/"
-sat_organization: "Default_Organization"
-sat_publisher_username: "{{ vault_sat_publisher_username }}"
-sat_publisher_password: "{{ vault_sat_publisher_password }}"
-sat_validate_certs: true
+---
+# contentviews.yml
 description: "Published by ansible-tower on {{ ansible_date_time.date }}"
 filter_enddate: "{{ ansible_date_time.date }}"
 num_cvs_to_keep: 3
