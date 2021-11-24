@@ -1,8 +1,11 @@
+---
 # CreateHostFromHostGroup.yml
 # This play creates a host of a defined name from a defined hostgroup
 # we can't gather facts because the hosts dont exist yet
+
 - name: Create hosts from specified Satellte/Foreman hostgroups
-  hosts: all
+  hosts: localhost
+  connection: local
   gather_facts: false
 
   tasks:
