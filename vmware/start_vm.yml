@@ -8,6 +8,6 @@
   vars: 
     current_state: powered-on
  
- tasks:
-  - include_tasks: power_action.yml
-    loop: "{{ snapshot_hosts }}"
+ - tasks:
+   - include_tasks: power_action.yml
+     loop: "{{ snapshot_hosts }}"
