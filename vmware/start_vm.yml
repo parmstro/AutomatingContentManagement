@@ -1,0 +1,13 @@
+---
+# Start the vm
+- name: Create the snapshots for the list of hosts
+  hosts: all
+  vars_files:
+  - vars/vault_vmware.yml
+  - vars/vmware.yml
+  vars: 
+    current_state: powered-on
+ 
+ tasks:
+  - include_tasks: power_action.yml
+    loop: "{{ snapshot_hosts }}"

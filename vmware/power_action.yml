@@ -1,0 +1,14 @@
+---
+# Perform the power action 
+# one of powered-off, powered-on, reboot-guest, restarted, shutdown-guest, suspended, present (default == powered-on)
+
+  - name: "Power Action - power state set to: {{ current_state }}"
+    community.vmware.vmware_guest_powerstate:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      datacenter: "{{ datacenter_name }}"
+      folder: "/{{ datacenter_name }}/{{ datacenter_folder }}/"
+      name: "{{ item.name }}"
+      state: "{{ current_state }}"
+    delegate_to: localhost

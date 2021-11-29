@@ -12,3 +12,9 @@
   tasks:
   - include_tasks: snapshot_action.yml
     loop: "{{ snapshot_hosts }}"
+
+  - set_fact:
+      current_state: powered-on
+
+  - include_tasks: power_action.yml
+    loop: "{{ snapshot_hosts }}"
