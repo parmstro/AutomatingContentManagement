@@ -2,13 +2,25 @@
 # Perform the power action 
 # one of powered-off, powered-on, reboot-guest, restarted, shutdown-guest, suspended, present (default == powered-on)
 
-  - name: "Power Action - power state set to: {{ current_state }} for host: {{ item.name }}"
-    community.vmware.vmware_guest_powerstate:
-      hostname: "{{ vcenter_hostname }}"
-      username: "{{ vcenter_username }}"
-      password: "{{ vcenter_password }}"
-      datacenter: "{{ datacenter_name }}"
-      folder: "{{ datacenter_folder }}"
-      name: "{{ item.name }}"
-      state: "{{ current_state }}"
-    delegate_to: localhost
+- name: Find Guest's Folder using name
+  community.vmware.vmware_guest_find:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    name: "*"
+  delegate_to: localhost
+  register: vm_folder
+
+- debug:
+    msg: "{{ vm_folder }}"
+
+- name: "Power Action - power state set to: {{ current_state }} for host: {{ item.name }}"
+  community.vmware.vmware_guest_powerstate:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    datacenter: "{{ datacenter_name }}"
+    folder: "{{ datacenter_folder }}"
+    name: "{{ item.name }}"
+    state: "{{ current_state }}"
+  delegate_to: localhost
