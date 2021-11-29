@@ -7,9 +7,10 @@
     hostname: "{{ vcenter_hostname }}"
     username: "{{ vcenter_username }}"
     password: "{{ vcenter_password }}"
-    name: "*"
+    name: "{{ item.name }}"
   delegate_to: localhost
   register: vm_folder
+
 
 - debug:
     msg: "{{ vm_folder }}"
