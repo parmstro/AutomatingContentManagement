@@ -7,7 +7,7 @@
       username: "{{ vcenter_username }}"
       password: "{{ vcenter_password }}"
       datacenter: "{{ datacenter_name }}"
-      folder: "/{{ datacenter_name }}/{{ datacenter_folder }}/"
+      folder: "{{ datacenter_folder }}"
       name: "{{ item.name }}"
       state: "{{ current_state }}"
       snapshot_name: "{{ item.snap_name }}"

@@ -1,6 +1,6 @@
 vcenter_hostname: "vcenter.parmstrong.ca"
 datacenter_name: "parmstrong.ca"
-datacenter_folder: "vm"
+datacenter_folder: ""
 vcenter_username: "{{ vault_vcenter_username }}"
 vcenter_password: "{{ vault_vcenter_password }}"
 snapshot_hosts:
