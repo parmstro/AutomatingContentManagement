@@ -11,10 +11,6 @@
   delegate_to: localhost
   register: vm_folder
 
-
-- debug:
-    msg: "{{ vm_folder }}"
-
 - name: "Power Action - power state set to: {{ current_state }} for host: {{ item.name }}"
   community.vmware.vmware_guest_powerstate:
     hostname: "{{ vcenter_hostname }}"
