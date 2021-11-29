@@ -1,7 +1,7 @@
 ---
 # do the actual snapshot action
 
-  - name: "Snapshot Action - snapshot state set to: {{ current_state }}"
+  - name: "Snapshot Action - snapshot state set to: {{ current_state }} for host: {{ item.name }}"
     community.vmware.vmware_guest_snapshot:
       hostname: "{{ vcenter_hostname }}"
       username: "{{ vcenter_username }}"
