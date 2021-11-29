@@ -1,9 +1,6 @@
-sat_server_url: "https://sat6.parmstrong.ca/"
-sat_organization: "Default Organization"
-sat_location: "Default Location"
-sat_publisher_username: "{{ vault_sat_publisher_username }}"
-sat_publisher_password: "{{ vault_sat_publisher_password }}"
-sat_validate_certs: true
+---
+# content_views.yml
+# these are our default SOE Content View definitions for our standard base Satellite build
 description: "Published by ansible-tower on {{ ansible_date_time.date }}"
 filter_enddate: "{{ ansible_date_time.date }}"
 num_cvs_to_keep: 3
@@ -12,9 +9,11 @@ content_views:
     desc: "Red Hat Enterprise Linux 7 Standard Operating Environment Content"
     org: "{{ sat_organization }}"
     repositories:
+    - name: "Red Hat Enterprise Linux 7 Server Kickstart x86_64 7.9"
+      product: "Red Hat Enterprise Linux Server"
     - name: "Red Hat Ansible Engine 2.9 RPMs for Red Hat Enterprise Linux 7 Server x86_64"
       product: "Red Hat Ansible Engine"
-    - name: "Red Hat Satellite Tools 6.9 for RHEL 7 Server RPMs x86_64"
+    - name: "Red Hat Satellite Tools 6.10 for RHEL 7 Server RPMs x86_64"
       product: "Red Hat Enterprise Linux Server"
     - name: "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
       product: "Red Hat Enterprise Linux Server"
@@ -23,6 +22,8 @@ content_views:
     - name: "Red Hat Enterprise Linux 7 Server - RH Common RPMs x86_64 7Server"
       product: "Red Hat Enterprise Linux Server"
     - name: "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
+      product: "Red Hat Enterprise Linux Server"
+    - name: "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
       product: "Red Hat Enterprise Linux Server"
     filters:
     - name: "AllPackagesNoErrata"
@@ -75,11 +76,11 @@ content_views:
       product: "Red Hat Enterprise Linux for x86_64"
     - name: "Red Hat Enterprise Linux 8 for x86_64 - Supplementary RPMs 8"
       product: "Red Hat Enterprise Linux for x86_64"
-    - name: "Red Hat Enterprise Linux 8 for x86_64 - AppStream Kickstart 8.4"
+    - name: "Red Hat Enterprise Linux 8 for x86_64 - AppStream Kickstart 8.5"
       product: "Red Hat Enterprise Linux for x86_64"
-    - name: "Red Hat Enterprise Linux 8 for x86_64 - BaseOS Kickstart 8.4"
+    - name: "Red Hat Enterprise Linux 8 for x86_64 - BaseOS Kickstart 8.5"
       product: "Red Hat Enterprise Linux for x86_64"
-    - name: "Red Hat Satellite Tools 6.9 for RHEL 8 x86_64 RPMs"
+    - name: "Red Hat Satellite Tools 6.10 for RHEL 8 x86_64 RPMs"
       product: "Red Hat Enterprise Linux Server"
     filters:
     - name: "AllPackagesNoErrata"
@@ -129,9 +130,11 @@ content_views:
     desc: "Red Hat Enterprise Linux 7 Standard Operating Environment Content"
     org: "{{ sat_organization }}"
     repositories:
+    - name: "Red Hat Enterprise Linux 7 Server Kickstart x86_64 7.9"
+      product: "Red Hat Enterprise Linux Server"
     - name: "Red Hat Ansible Engine 2.9 RPMs for Red Hat Enterprise Linux 7 Server x86_64"
       product: "Red Hat Ansible Engine"
-    - name: "Red Hat Satellite Tools 6.9 for RHEL 7 Server RPMs x86_64"
+    - name: "Red Hat Satellite Tools 6.10 for RHEL 7 Server RPMs x86_64"
       product: "Red Hat Enterprise Linux Server"
     - name: "Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64"
       product: "Red Hat Enterprise Linux Server"
@@ -142,8 +145,6 @@ content_views:
     - name: "Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server"
       product: "Red Hat Enterprise Linux Server"
     - name: "Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server"
-      product: "Red Hat Enterprise Linux Server"
-    - name: "Red Hat Insights 3 for RHEL 7 Server RPMs x86_64"
       product: "Red Hat Enterprise Linux Server"
     filters:
     - name: "AllPackagesNoErrata"
@@ -191,7 +192,7 @@ content_views:
       product: "Red Hat Enterprise Linux for x86_64"
     - name: "Red Hat Enterprise Linux 8 for x86_64 - Supplementary RPMs 8.4"
       product: "Red Hat Enterprise Linux for x86_64"
-    - name: "Red Hat Satellite Tools 6.9 for RHEL 8 x86_64 RPMs"
+    - name: "Red Hat Satellite Tools 6.10 for RHEL 8 x86_64 RPMs"
       product: "Red Hat Enterprise Linux Server"
     filters:
     - name: "AllPackagesNoErrata"
@@ -232,11 +233,11 @@ content_views:
     environments:
     - "SOE_Development"
     
-  - name: "JBossEAP73"
-    desc: "Red Hat JBoss EAP 7.3 Content"
+  - name: "JBossEAP74"
+    desc: "Red Hat JBoss EAP 7.4 Content"
     org: "{{ sat_organization }}"
     repositories:
-    - name: "JBoss Enterprise Application Platform 7.3 RHEL 8 RPMs"
+    - name: "JBoss Enterprise Application Platform 7.4 RHEL 8 RPMs"
       product: "JBoss Enterprise Application Platform"
     filters:
     - name: "AllPackagesNoErrata"
@@ -285,11 +286,11 @@ composite_content_views:
     - "App_Development"
   
   - name: "JBoss_SOE"
-    desc: "RHEL 7.9 to 8.4 Upgrade Content"
+    desc: "JBoss EAP7 on RHEL8 Demonstration Content"
     org: "{{ sat_organization }}"
     components:
     - "RHEL8_SOE"
-    - "JBossEAP73"
+    - "JBossEAP74"
     environments:
     - "SOE_Development"
     - "SOE_Qualification"
