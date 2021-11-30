@@ -2,6 +2,7 @@
 # simplified installation based on EAP rpm installation
 # supporting RHEL7 and RHEL8 with RPM install
 # requires proper Red Hat Subscriptions to be attached
+# this is a repo based installation for JBoss EAP to run as a service
 
 - name: Begin install on RHEL7 Host
   block:
@@ -20,6 +21,7 @@
 
   when: ansible_distribution_major_version == "7"
 
+# In latest RHEL8, we must use modules
 - name: Begin install on RHEL8 Host
   block:
 
