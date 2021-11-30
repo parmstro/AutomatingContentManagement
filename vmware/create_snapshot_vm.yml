@@ -10,5 +10,5 @@
     current_state: present
   
   tasks:
-  - include_tasks: snapshot_action.yml
-    loop: "{{ snapshot_hosts }}"
+  - include_tasks: tasks/snapshot_action.yml
+    loop: "{{ host_list }}"

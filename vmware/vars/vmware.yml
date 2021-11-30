@@ -3,7 +3,7 @@ datacenter_name: "parmstrong.ca"
 datacenter_folder: "/parmstrong.ca/vm"
 vcenter_username: "{{ vault_vcenter_username }}"
 vcenter_password: "{{ vault_vcenter_password }}"
-snapshot_hosts:
+host_list:
 - name: testjboss.parmstrong.ca
   snap_name: testjboss.original
   snap_description: "test base jboss build - delete me"

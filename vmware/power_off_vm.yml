@@ -1,0 +1,14 @@
+---
+# power_off_vm.yml
+
+- name: Power off the list of vmware hosts
+  hosts: all
+  vars_files:
+  - vars/vault_vmware.yml
+  - vars/vmware.yml
+  vars: 
+    current_state: powered-off
+ 
+  tasks:
+  - include_tasks: tasks/power_action.yml
+    loop: "{{ host_list }}"

@@ -1,0 +1,14 @@
+---
+# suspend_vm.yml
+
+- name: Suspend the power for the list of vmware hosts
+  hosts: all
+  vars_files:
+  - vars/vault_vmware.yml
+  - vars/vmware.yml
+  vars: 
+    current_state: suspended
+ 
+  tasks:
+  - include_tasks: tasks/power_action.yml
+    loop: "{{ host_list }}"

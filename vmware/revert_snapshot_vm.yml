@@ -10,11 +10,11 @@
     current_state: revert
 
   tasks:
-  - include_tasks: snapshot_action.yml
-    loop: "{{ snapshot_hosts }}"
+  - include_tasks: tasks/snapshot_action.yml
+    loop: "{{ host_list }}"
 
   - set_fact:
       current_state: present
 
-  - include_tasks: power_action.yml
-    loop: "{{ snapshot_hosts }}"
+  - include_tasks: tasks/power_action.yml
+    loop: "{{ host_list }}"
