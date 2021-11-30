@@ -1,5 +1,5 @@
 ---
-# delete_snapshot_vm.yml
+# vmw_delete_snapshot.yml
 
 - name: Delete the snapshots for the list of hosts
   hosts: all
@@ -7,7 +7,7 @@
   - vars/vault_vmware.yml
   - vars/vmware.yml
   vars:
-    current_state: remove_all
+    current_state: absent
 
   tasks:
   - include_tasks: tasks/snapshot_action.yml

@@ -1,13 +1,13 @@
 ---
-# restart_vm.yml
+# vmw_reboot_guest_os.yml
 
-- name: Restart the Virtual Machine for the list of vmware hosts
+- name: Reboot the OS on the list of vmware hosts
   hosts: all
   vars_files:
   - vars/vault_vmware.yml
   - vars/vmware.yml
   vars: 
-    current_state: restarted
+    current_state: reboot-guest
  
   tasks:
   - include_tasks: tasks/power_action.yml

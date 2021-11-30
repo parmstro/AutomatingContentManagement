@@ -1,13 +1,13 @@
 ---
-# shutdown_guest_os_vm.yml
+# vmw_restart_vm.yml
 
-- name: Shutdown guest OS (poweroff) on the list of vmware hosts
+- name: Restart the Virtual Machine for the list of vmware hosts
   hosts: all
   vars_files:
   - vars/vault_vmware.yml
   - vars/vmware.yml
   vars: 
-    current_state: shutdown-guest
+    current_state: restarted
  
   tasks:
   - include_tasks: tasks/power_action.yml

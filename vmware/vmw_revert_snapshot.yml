@@ -1,5 +1,5 @@
 ---
-# revert_snapshot_vm.yml
+# vmw_revert_snapshot.yml
 
 - name: Revert snapshots for the list of hosts
   hosts: all

@@ -1,5 +1,5 @@
 ---
-# suspend_vm.yml
+# vmw_suspend_vm.yml
 
 - name: Suspend the power for the list of vmware hosts
   hosts: all

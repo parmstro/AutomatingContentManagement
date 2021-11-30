@@ -1,5 +1,5 @@
 ---
-# power_on_vm.yml
+# vmw_power_on_vm.yml
 
 - name: Power on the list of vmware hosts
   hosts: all

@@ -1,5 +1,5 @@
 ---
-# create_snapshot_vm.yml
+# vmw_create_snapshot.yml
 
 - name: Create the snapshots for the list of hosts
   hosts: all
