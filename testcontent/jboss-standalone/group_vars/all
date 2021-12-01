@@ -6,3 +6,18 @@ sample_app_git_repo: "https://github.com/parmstro/jboss-eap-quickstarts.git"
 sample_app_root: "/samples/jboss"
 sample_app_dir: "helloworld/"
 app_fingerprint: "{{ sample_app_root }}/c0df90d8-5173-4e65-bc82-88b6033fc6a7"
+# for eap7.4 this is the based from the software collection directory
+# /opt/rh/eap7/wildfly/
+# server_config values are domain or standalone
+server_config: "standalone"
+jboss_home: "/opt/rh/eap7/wildfly"
+jboss_base_dir: "{{ jboss_home }}/{{ server_config }}"
+jboss_config_dir: "{{jboss_base_dir }}/configuration"
+jboss_module_path: "{{jboss_home }}/modules"
+jboss_log_dir: "{{jboss_base_dir }}/log"
+jboss_tmp_dir: "{{jboss_base_dir }}/tmp"
+jboss_deployments_dir: "{{jboss_base_dir }}/deployments"
+jboss_data_dir: "{{jboss_base_dir }}/data"
+jboss_standalone_lib_dir: "{{jboss_base_dir }}/lib"
+jboss_domain_servers_dir: "{{jboss_base_dir }}/servers"
+jboss_standalone_conf_path: "/etc/opt/rh/eap7/wildfly/eap7-standalone.conf"

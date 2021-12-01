@@ -1,0 +1,41 @@
+# The configuration you want to run
+
+# Location of java in the JRE (the default)
+#JAVA_HOME=/usr/lib/jvm/jre
+# Use the following for location of java in the SDK
+# JAVA_HOME=/usr/lib/jvm/java
+
+# Make sure java is on your path
+#JAVAPTH="/usr/lib/jvm/jre/bin"
+
+# Location to keep the console log, the file to be searched for the server 
+# start up message besides /var/opt/rh/eap7/log/wildfly/standalone/server.log
+#WILDFLY_CONSOLE_LOG=/var/opt/rh/eap7/log/wildfly/standalone/console.log
+
+# Define the script to use to start wildfly
+#WILDFLY_SH="/opt/rh/eap7/root/usr/share/wildfly/bin/standalone.sh"
+
+# Define server configuration to start, eg. standalone.xml
+{% if server_config == 'standalone' -%}
+WILDFLY_SERVER_CONFIG=standalone.xml
+{% elif server_config == 'standalone-full' -%}
+WILDFLY_SERVER_CONFIG=standalone-full.xml
+{% elif server_config == 'standalone-ha' -%}
+WILDFLY_SERVER_CONFIG=standalone-ha.xml
+{% elif server_config == 'standalone-full-ha' -%}
+WILDFLY_SERVER_CONFIG=standalone-full-ha.xml
+{% elif server_config == 'standalone-load-balancer' -%}
+WILDFLY_SERVER_CONFIG=standalone-load-balancer.xml
+{% else -%}
+WILDFLY_SERVER_CONFIG=standalone.xml
+{% endif -%}
+
+
+# Define where wildfly module directory is
+#WILDFLY_MODULEPATH="/opt/rh/eap7/root/usr/share/wildfly/modules"
+
+# The address to bind to
+#WILDFLY_BIND=0.0.0.0
+
+# Additionals args to include on startup
+#WILDFLY_OPTS=""

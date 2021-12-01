@@ -56,6 +56,16 @@
     repo: "{{ sample_app_git_repo }}"
     dest: "{{ sample_app_root }}"
 
+- name: Deploy the standalone configuration template
+  ansible.builtin.template:
+    src: eap7-standalone.conf.j2
+    dest: "{{ jboss_standalone_conf_path }}"
+
+- name: Deploy the standalone xml
+  ansible.builtin.template:
+    src: standalone.xml.j2
+    dest: "{{ jboss_configuration_dir }}/standalone.xml"
+
 - name: build and deploy the sample app
   ansible.builtin.command:
     chdir: "{{ sample_app_root }}/{{ sample_app_dir }}"
