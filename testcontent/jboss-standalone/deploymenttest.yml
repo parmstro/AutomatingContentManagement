@@ -11,7 +11,7 @@
 
   - name: GET the kitchensink
     uri:
-      url: "http://{{ ansible_fqdn }}:8080/kitchensink/index.jsf"
+      url: "http://{{ ansible_fqdn }}:{{ http_port }}/kitchensink/index.jsf"
       method: GET
       return_content: true
     register: result
@@ -24,7 +24,7 @@
 
   - name: POST an entry to the kitchensink
     uri:
-      url: "http://{{ ansible_fqdn }}:8080/kitchensink/rest/members"
+      url: "http://{{ ansible_fqdn }}:{{ http_port }}/kitchensink/rest/members"
       method: POST
       body_format: json
       body: 
@@ -41,7 +41,7 @@
 
   - name: GET the kitchensink with new data
     uri:
-      url: "http://{{ ansible_fqdn }}:8080/kitchensink/rest/members"
+      url: "http://{{ ansible_fqdn }}:{{ http_port }}/kitchensink/rest/members"
       method: GET
       return_content: true
     register: result
