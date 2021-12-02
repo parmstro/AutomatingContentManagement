@@ -11,4 +11,4 @@ mysql_port: 3306
 dbuser: "{{ vault_dbuser }}"               
 dbname: "{{ vault_dbname }}"               
 upassword: "{{ vault_dbuser_password }}"   
-install_grafana: false
+install_grafana: true
