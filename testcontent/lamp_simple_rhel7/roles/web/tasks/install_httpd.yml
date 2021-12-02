@@ -13,8 +13,8 @@
 - name: Install httpd and php for RHEL 8
   ansible.builtin.yum: 
     name:
-    - httpd
-    - @php:7.4
+    - "httpd"
+    - "@php:7.4/common"
     state: present
   when: ansible_distribution_major_version == "8"
 
