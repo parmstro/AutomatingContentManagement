@@ -40,8 +40,8 @@
     src: "files/{{ item }}"
     dest: "/root/{{ item }}"
   loop:
-    - grafana_map_country_area.yml
-    - grafana_map_populations.yml
+    - grafana_map_country_area.sql
+    - grafana_map_populations.sql
 
 # TODO: 
 #   update admin password
