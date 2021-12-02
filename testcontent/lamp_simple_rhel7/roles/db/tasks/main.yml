@@ -18,9 +18,9 @@
     state: present                                # Must be present NOT latest or will fail - this is a bug https://github.com/ansible/ansible/issues/56504
   when: ansible_distribution_major_version == "8"
 
-- name: Ensure Python3 is the default python on RHEL8 because sample app is old
-  ansible.builtin.command: "alternatives --set python /usr/bin/python3"
-  when: ansible_distribution_major_version == "8"
+# - name: Ensure Python3 is the default python on RHEL8 because sample app is old
+#   ansible.builtin.command: "alternatives --set python /usr/bin/python3"
+#   when: ansible_distribution_major_version == "8"
   
 - name: Configure SELinux to allow mysql port {{ mysql_port }}
   community.general.seport: 
