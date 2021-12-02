@@ -18,7 +18,7 @@
 
 - name: Open the firewall ports for grafana
   ansible.posix.firewalld:
-    ports: "{{ grafana_port }}"
+    ports: "{{ grafana_port }}/tcp"
     permanent: true
     immediate: true
     state: enabled
