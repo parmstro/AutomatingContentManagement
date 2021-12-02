@@ -27,7 +27,7 @@
   ansible.builtin.service:
     name: httpd
     state: stopped
-    disabled: true
+    enabled: false
 
 - name: Ensure the grafana server is restarted and enabled
   ansible.builtin.service:
