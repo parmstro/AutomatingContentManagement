@@ -14,9 +14,9 @@
   ansible.builtin.yum: 
     name:
     - httpd
-    - php
-    - php-mysqlnd    # RHEL8 uses the MySQL Native Driver
-    state: latest
+    - @php:7.4
+    #- @php-mysqlnd    # RHEL8 uses the MySQL Native Driver This is now included in the php module
+    state: present
   when: ansible_distribution_major_version == "8"
 
 - name: Start firewalld
