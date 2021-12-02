@@ -12,3 +12,4 @@ dbuser: "{{ vault_dbuser }}"
 dbname: "{{ vault_dbname }}"               
 upassword: "{{ vault_dbuser_password }}"   
 install_grafana: true
+grafana_port: 3000
