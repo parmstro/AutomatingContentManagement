@@ -1,24 +1,6 @@
 ---
 # This playbook contains common plays that will be run on all nodes.
 
-- name: Install chronyd
-  ansible.builtin.yum: 
-    name: "chrony"
-    state: latest
-  tags: chrony
-
-- name: Check for predeployed packages - this should present and patched already - return 'ok'
-  ansible.builtin.yum: 
-    name: 
-     - firewalld
-    state: latest
-
-- name: Deploy package that should be available but not installed - this should return 'changed'
-  ansible.builtin.yum: 
-    name: 
-     - vim-enhanced
-    state: present
-
 - name: Configure chrony for time servers
   ansible.builtin.template: 
     src: chrony.conf.j2 
