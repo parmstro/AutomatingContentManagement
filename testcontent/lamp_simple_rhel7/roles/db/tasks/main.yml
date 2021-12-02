@@ -9,12 +9,12 @@
     state: latest
   when: ansible_distribution_major_version == "7"
 
+# python3-PyMySQL included in python36 module
 - name: Install MariaDB AppStreams for RHEL 8
   ansible.builtin.dnf: 
     name: 
     - "@mariadb:10.3/server"
-    - "@python36"
-    - "python3-PyMySQL"
+    - "@python36:3.6/common"
     state: present                                # Must be present NOT latest or will fail - this is a bug https://github.com/ansible/ansible/issues/56504
   when: ansible_distribution_major_version == "8"
 
