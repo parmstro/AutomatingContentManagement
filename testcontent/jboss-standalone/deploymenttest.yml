@@ -1,0 +1,63 @@
+---
+# This play tests to see if the kitchensink is not plugged :-)
+# Post a new entry
+# Get the response
+# see if it is available in the rest interface
+- name: Test JBoss Deployment
+  hosts: all
+
+
+  tasks:
+
+  - name: GET the kitchensink
+    uri:
+      url: "http://{{ ansible_fqdn }}:8080/kitchensink/index.jsf"
+      method: GET
+      return_content: true
+    register: result
+
+  - debug: 
+      msg: "{{ result }}"
+
+  - set_fact:
+      random_number: "{{ 1000000000 | random(seed=ansible_date_time.time) }}"
+
+  - name: POST an entry to the kitchensink
+    uri:
+      url: "http://{{ ansible_fqdn }}:8080/kitchensink/rest/members"
+      method: POST
+      body_format: json
+      body: 
+        name: "Bob Surunkle"
+        email: "bobsurunkle{{ random_number }}@bob.ca"
+        phoneNumber: "5555551212"
+      headers:
+        cookies: "{{ result.set_cookie }}"
+      status_code: 200
+    register: result
+
+  - debug: 
+      msg: "{{ result }}"
+
+  - name: GET the kitchensink with new data
+    uri:
+      url: "http://{{ ansible_fqdn }}:8080/kitchensink/rest/members"
+      method: GET
+      return_content: true
+    register: result
+
+  - debug: 
+      msg: "{{ result }}"
+
+  - set_fact:
+      found: "{{ result.json | json_query(jmesquery) }}" 
+    vars:
+      jmesquery: "[? email==`bobsurunkle{{ random_number }}@bob.ca`].{Name: name, Email: email, Phone: phoneNumber}"
+
+  - debug: 
+      msg: "{{ found }}"
+
+  - name: Check Result
+    fail:
+      msg: "Data check failed - deployment unsuccessful"
+    when: found == ""
