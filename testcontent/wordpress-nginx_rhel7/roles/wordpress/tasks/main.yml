@@ -69,28 +69,49 @@
 
 # update to SELinux modules
 - name: set the SELinux policy for the Wordpress directory
-  ansible.builtin.command: semanage fcontext -a -t httpd_sys_content_t "/srv/wordpress(/.*)?"
+  community.general.sefcontext: 
+    setype: "httpd_sys_content_t" 
+    target: "/srv/wordpress(/.*)?"
+    state: present
 
 - name: set the SELinux policy for wp-config.php
-  ansible.builtin.command: semanage fcontext -a -t httpd_sys_script_exec_t "/srv/wordpress/wp-config\.php"
+  community.general.sefcontext: 
+    setype: "httpd_sys_script_exec_t" 
+    target: "/srv/wordpress/wp-config\.php"
+    state: present
 
 - name: set the SELinux policy for wp-content directory
-  ansible.builtin.command: semanage fcontext -a -t httpd_sys_rw_content_t "/srv/wordpress/wp-content(/.*)?"
+  community.general.sefcontext: 
+    setype: "httpd_sys_rw_content_t"
+    target: "/srv/wordpress/wp-content(/.*)?"
+    state: present
 
 - name: set the SELinux policy for the *.php files
-  ansible.builtin.command: semanage fcontext -a -t httpd_sys_script_exec_t "/srv/wordpress/.*\.php"
+  community.general.sefcontext: 
+    setype: "httpd_sys_script_exec_t"
+    target: "/srv/wordpress/.*\.php"
+    state: present
 
 - name: set the SELinux policy for the Upgrade directory
-  ansible.builtin.command: semanage fcontext -a -t httpd_sys_rw_content_t "/srv/wordpress/wp-content/upgrade(/.*)?"
+  community.general.sefcontext: 
+    setype: "httpd_sys_rw_content_t"
+    target: "/srv/wordpress/wp-content/upgrade(/.*)?"
+    state: present
 
 - name: set the SELinux policy for the Uploads directory
-  ansible.builtin.command: semanage fcontext -a -t httpd_sys_rw_content_t "/srv/wordpress/wp-content/uploads(/.*)?"
+  community.general.sefcontext: 
+    setype: "httpd_sys_rw_content_t"
+    target: "/srv/wordpress/wp-content/uploads(/.*)?"
+    state: present
 
 - name: set the SELinux policy for the wp-includes php files
-  ansible.builtin.command: semanage fcontext -a -t httpd_sys_script_exec_t "/srv/wordpress/wp-includes/.*\.php"
+  community.general.sefcontext: 
+    setype: "httpd_sys_script_exec_t"
+    target: "/srv/wordpress/wp-includes/.*\.php"
+    state: present
 
 - name: set the SELinux on all the Files
-  ansible.builtin.command: restorecon -Rv /srv/wordpress
+  ansible.builtin.command: "restorecon -Rv /srv/wordpress"
 
 - name: Start php-fpm Service
   ansible.builtin.service: 
