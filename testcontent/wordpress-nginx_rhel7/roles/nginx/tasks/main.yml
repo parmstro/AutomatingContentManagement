@@ -17,6 +17,7 @@
     src: default.conf 
     dest: /etc/nginx/conf.d/default.conf
   notify: restart nginx
+  when: nginx_port != 80
 
 - name: insert firewalld rule for nginx
   ansible.posix.firewalld: 
