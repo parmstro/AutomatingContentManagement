@@ -11,7 +11,7 @@
 - name: Extract archive
   ansible.builtin.command: 
     chdir: "/srv/"
-    name: "/bin/tar xvf wordpress-{{ wp_version }}.tar.gz"
+    cmd: "/bin/tar xvf wordpress-{{ wp_version }}.tar.gz"
     creates: "/srv/wordpress"
 
 - name: Add group "wordpress"
