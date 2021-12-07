@@ -14,12 +14,12 @@
   when: ansible_distribution_major_version == "7"
 
 - name: Install Firewalld
-  community.builtin.yum: 
+  ansible.builtin.yum: 
     name: firewalld 
     state: latest
 
 - name: Firewalld service state
-  community.builtin.service: 
+  ansible.builtin.service: 
     name: firewalld 
     state: started 
     enabled: true
