@@ -3,7 +3,7 @@
 # research PHP deps for wordpress
 
 - name: Install php-fpm and deps for RHEL 7
-  ansible.builtiun.yum:
+  ansible.builtin.yum:
     name:
     - php
     - php-fpm
