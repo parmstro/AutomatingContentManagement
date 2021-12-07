@@ -3,42 +3,70 @@
 # we will only allow Wordpress and its dependencies from the content view
 
 - name: Download WordPress
-  ansible.builtin.get_url: url=http://wordpress.org/wordpress-{{ wp_version }}.tar.gz dest=/srv/wordpress-{{ wp_version }}.tar.gz
-           sha256sum="{{ wp_sha256sum }}"
+  ansible.builtin.get_url: 
+    url: "http://wordpress.org/wordpress-{{ wp_version }}.tar.gz"
+    dest: "/srv/wordpress-{{ wp_version }}.tar.gz"
+    sha256sum: "{{ wp_sha256sum }}"
 
 - name: Extract archive
-  ansible.builtin.command: chdir=/srv/ /bin/tar xvf wordpress-{{ wp_version }}.tar.gz creates=/srv/wordpress
+  ansible.builtin.command: 
+    chdir: "/srv/"" 
+    name: "/bin/tar xvf wordpress-{{ wp_version }}.tar.gz"
+    creates: "/srv/wordpress"
 
 - name: Add group "wordpress"
-  ansible.builtin.group: name=wordpress
+  ansible.builtin.group: 
+    name: "wordpress"
 
 - name: Add user "wordpress"
-  ansible.builtin.user: name=wordpress group=wordpress home=/srv/wordpress/
+  ansible.builtin.user: 
+    name: "wordpress"
+    group: "wordpress"
+    home: "/srv/wordpress/"
 
 - name: Fetch random salts for WordPress config
-  local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
+  local_action: 
+  command: "curl https://api.wordpress.org/secret-key/1.1/salt/"
   register: "wp_salt"
   become: no
 
-
-# Does this mysql belong here??
 - name: Create WordPress database
-  community.mysql.mysql_db: name={{ wp_db_name }} state=present
+  community.mysql.mysql_db: 
+    name: "{{ wp_db_name }}"
+    state: present
 
 - name: Create WordPress database user
-  community.mysql.mysql_user: name={{ wp_db_user }} password={{ wp_db_password }} priv={{ wp_db_name }}.*:ALL host='localhost' state=present
-
-
+  community.mysql.mysql_user: 
+    name: "{{ wp_db_user }}"
+    password: "{{ wp_db_password }}"
+    priv: "{{ wp_db_name }}.*:ALL" 
+    host: "localhost"
+    state: present
 
 - name: Copy WordPress config file
-  ansible.builtin.template: src=wp-config.php dest=/srv/wordpress/
+  ansible.builtin.template: 
+    src: "wp-config.php"
+    dest: "/srv/wordpress/"
 
 - name: Change ownership of WordPress installation
-  ansible.builtin.file: path=/srv/wordpress/ owner=wordpress group=wordpress state=directory recurse=yes
+  ansible.builtin.file: 
+    path: "/srv/wordpress/"
+    owner: "wordpress"
+    group: "wordpress"
+    state: directory
+    recurse: yes
 
-- name: install SEManage
-  ansible.builtin.yum: pkg=policycoreutils-python state=present
+- name: install python SELinux utilities RHEL 8
+  ansible.builtin.yum: 
+    pkg: "python3-policycoreutils"
+    state: present
+  when: ansible_distribution_major_version == "8"
 
+- name: install python SELinux utilities RHEL7
+  ansible.builtin.yum: 
+    pkg: "policycoreutils-python"
+    state: present
+  when: ansible_distribution_major_version == "7"
 
 # update to SELinux modules
 - name: set the SELinux policy for the Wordpress directory
@@ -66,4 +94,7 @@
   ansible.builtin.command: restorecon -Rv /srv/wordpress
 
 - name: Start php-fpm Service
-  ansible.builtin.service: name=php-fpm state=started enabled=yes
+  ansible.builtin.service: 
+    name: "php-fpm"
+    state: started 
+    enabled: yes
