@@ -67,6 +67,18 @@
     state: present
   when: ansible_distribution_major_version == "7"
 
+- name: install the php mysql extension RHEL8
+  ansible.builtin.yum: 
+    pkg: "php-mysqlnd"
+    state: present
+  when: ansible_distribution_major_version == "8"
+
+- name: install the php mysql extension RHEL7
+  ansible.builtin.yum: 
+    pkg: "php-mysql"
+    state: present
+  when: ansible_distribution_major_version == "7"
+
 # update to SELinux modules
 - name: set the SELinux policy for the Wordpress directory
   community.general.sefcontext: 
