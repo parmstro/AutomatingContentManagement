@@ -21,7 +21,7 @@
 #   ansible.builtin.command: "alternatives --set python /usr/bin/python3"
 #   when: ansible_distribution_major_version == "8"
 - name: Install python3-PyMySQL
-  command: "pip3 install python3-PyMySQL"
+  command: "pip3 install PyMySQL"
 
 - name: Configure SELinux to allow mysql port {{ mysql_port }}
   community.general.seport: 
