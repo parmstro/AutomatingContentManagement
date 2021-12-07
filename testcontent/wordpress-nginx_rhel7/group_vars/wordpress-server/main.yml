@@ -10,7 +10,7 @@ mysql_port: 3306
 # These are the WordPress database settings
 wp_db_name: "{{ vault_wp_db_name }}"
 wp_db_user: "{{ vault_wp_db_user }}"
-wp_db_password: "{{ wp_db_password }}"
+wp_db_password: "{{ vault_wp_db_password }}"
 
 # This is used for the nginx server configuration, but access to the
 # WordPress site is not restricted by a named host.
