@@ -77,7 +77,7 @@
 - name: set the SELinux policy for wp-config.php
   community.general.sefcontext: 
     setype: "httpd_sys_script_exec_t" 
-    target: "/srv/wordpress/wp-config\.php"
+    target: "/srv/wordpress/wp-config.php"
     state: present
 
 - name: set the SELinux policy for wp-content directory
@@ -89,7 +89,7 @@
 - name: set the SELinux policy for the *.php files
   community.general.sefcontext: 
     setype: "httpd_sys_script_exec_t"
-    target: "/srv/wordpress/.*\.php"
+    target: "/srv/wordpress/*.php"
     state: present
 
 - name: set the SELinux policy for the Upgrade directory
@@ -107,7 +107,7 @@
 - name: set the SELinux policy for the wp-includes php files
   community.general.sefcontext: 
     setype: "httpd_sys_script_exec_t"
-    target: "/srv/wordpress/wp-includes/.*\.php"
+    target: "/srv/wordpress/wp-includes/*.php"
     state: present
 
 - name: set the SELinux on all the Files
