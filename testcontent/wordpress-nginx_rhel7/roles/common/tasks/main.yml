@@ -4,13 +4,13 @@
 - name: Ensure repos are available on RHEL 8
   community.general.rhsm_repository:
     name: 
-      - EPEL8_RPMS
-      - EPEL8_Streams
+      - Default_Organization_EPEL8_EPEL8_Streams
+      - Default_Organization_EPEL8_EPEL8_RPMS
   when: ansible_distribution_major_version == "8"
 
 - name: Ensure repos are available on RHEL 7
   community.general.rhsm_repository:
-    name: EPEL7
+    name: Default_Organization_EPEL7_EPEL7
   when: ansible_distribution_major_version == "7"
 
 - name: Install Firewalld
