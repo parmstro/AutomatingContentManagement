@@ -1,0 +1,54 @@
+# This play is a simple test of the wordpress deployment
+# Submit configuration information for the default site
+# Check for success
+# GET the default page
+# Check for site name supplied in configuration
+
+
+- name: WordPress deployment test
+  hosts: all
+
+  tasks:
+
+  - name: Supply a configuration to the default site
+    ansible.builtin.uri:
+      url: "http://{{ ansible_fqdn }}/wp-admin/install.php?step=2"
+      method: POST
+      body_format: form_urlencoded
+      body:
+        weblog_title: "{{ wp_weblog_title }}"
+        user_name: "{{ wp_user_name }}"
+        admin_password: "{{ wp_admin_passord }}"
+        admin_password2: "{{ wp_admin_passord }}"
+        pw_weak: "{{ wp_allow_weak_pass }}"
+        admin_email: "{{ wp_admin_email }}"
+        blog_public: "{{ wp_blog_public }}"
+        Submit: "Install WordPress"
+        language: ""
+      status_code: 200
+      return_content: yes
+    register: config_result
+
+
+  - name: Check for success
+    fail:
+      msg: "Configuration Failed - could not set up default site"
+    when:  config_result.content is not search("<p>WordPress has been installed. Thank you, and enjoy!</p>")
+
+  - name: GET the default weblog
+    ansible.builtin.uri:
+      url: "http://{{ ansible_fqdn }}/wp-admin/install.php?step=2"
+      method: GET
+      status_code: 200
+      return_content: yes
+    register: default_weblog_page
+
+  - name: Check for Site Name supplied in config
+    fail:
+      msg: "Site Check Failed - could not access default weblog {{ wp_weblog_title }}"
+    when: default_weblog_page.content is not search(wp_weblog_title)
+
+  - name: Test Results
+    debug:
+      msg: "All tests succeeded."
+      
