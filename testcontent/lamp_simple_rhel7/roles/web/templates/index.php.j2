@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Smoke Test Application</title>
+    <title>ACM Test Application</title>
   </head>
   <body>
     <H1>
@@ -13,7 +13,7 @@
     <br/>
     <H2>
     <?php 
-    Print "Hello, World! Smoke Testing our LAMP Deployment using Ansible and this host is: ";
+    Print "Automating Content Management -  Testing our LAMP Deployment using Ansible and this host is: ";
     echo exec('hostname');
     Print  "</BR>";
     Print  "</BR>";
@@ -31,32 +31,54 @@
     Print  "</H3>";
     ?>
     <H3><B> Latest Country Statistics from Nation Database </B></H3>
-    <BR/>
-    <table border="0" align="left">
-      <tr>
-        <td>Country Name</td>
-        <td>Area (km^2)</td>
-        <td>Population</td>
-        <td>GDP (USD)</td>
-        <td>Population Density (people/km^2)</td>
-        <td>GDP Density (USD/person)</td>
-        <td>Year</td>
+    <style>
+      table, th, td {
+        border: 1px solid white;
+        border-collapse: collapse;
+      }
+      
+      th, td {
+        padding-top: 5px;
+        padding-bottom: 0px;
+        padding-left: 30px;
+        padding-right: 0px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #D6EEEE;
+      }
+    </style>
+    <table>
+      <tr style="font-weight:bold">
+        <td align=center>Country Name</td>
+        <td align=center>Area (km^2)</td>
+        <td align=center>Population</td>
+        <td align=center>GDP (USD)</td>
+        <td align=center>Population Density (people/km^2)</td>
+        <td align=center>GDP Density (USD/person)</td>
+	      <td align=center>Year</td>
       </tr>
-
+      <tr></tr>
       <?php
-
-      $query = mysqli_query($dbconnect, "SELECT C.name,  C.country_code2,  C.area, CS.population, CS.gdp, CS.population/C.area as "density", CS.gdp/CS.population as "gdp_density", CS.year FROM countries C  INNER JOIN country_stats CS ON C.country_id = CS.country_id  WHERE CS.year = (SELECT max(year) FROM country_stats) ;")
+      {% for host in groups['dbservers'] %}
+        $dbconnect = mysqli_connect('{{ hostvars[host].ansible_default_ipv4.address }}', '{{ hostvars[host].dbuser }}', '{{ hostvars[host].upassword }}', 'nation') or die(mysqli_connect_error($dbconnect));
+      {% endfor %}
+      
+      $query = mysqli_query($dbconnect, "SELECT C.name,  C.country_code2,  C.area, CS.population, CS.gdp, CS.population/C.area as density, CS.gdp/CS.population as gdp_density, CS.year FROM countries C  INNER JOIN country_stats CS ON C.country_id = CS.country_id  WHERE CS.year = (SELECT max(year) FROM country_stats);")
       or die (mysqli_error($dbconnect));
-
+ 
+      setlocale(LC_MONETARY,"en_US");
+      
       while ($row = mysqli_fetch_array($query)) {
       echo
       "<tr>
-        <td>{$row['name']}</td>
-        <td>{$row['area']}</td>
-        <td>{$row['population']}</td>
-        <td>{$row['density']}</td>
-        <td>{$row['gdp_density']}</td>
-        <td>{$row['year']}</td>
+        <td>". $row['name'] . "</td>
+        <td align=right>" . $row['area'] . "</td>:
+	      <td align=right>" . $row['population'] . "</td>
+        <td align=right>" . money_format('%.2n',$row['gdp']) . "</td>
+        <td align=right>" . $row['density'] . "</td>
+        <td align=right>" . money_format('%.2n',$row['gdp_density']) . "</td>
+        <td align=right>" . $row['year'] . "</td>
       </tr>\n";
 
       }
