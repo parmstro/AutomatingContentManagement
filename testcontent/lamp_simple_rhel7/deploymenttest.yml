@@ -1,3 +1,4 @@
+---
 # This play is a simple test of the LAMP Stack deployment
 # This currently does not test grafana - this will fail with install_grafana: true
 
