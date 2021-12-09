@@ -12,6 +12,14 @@ wp_db_name: "{{ vault_wp_db_name }}"
 wp_db_user: "{{ vault_wp_db_user }}"
 wp_db_password: "{{ vault_wp_db_password }}"
 
+# These are the WordPress default weblog settings
+wp_weblog_title: "SampleSite"
+wp_user_name: "anonuser"
+wp_admin_password: "S33kr8"
+wp_allow_weak_pass: true
+wp_admin_email: "joeuser@parmstrong.ca"
+wp_blog_public: false
+
 # This is used for the nginx server configuration, but access to the
 # WordPress site is not restricted by a named host.
 nginx_port: 80
