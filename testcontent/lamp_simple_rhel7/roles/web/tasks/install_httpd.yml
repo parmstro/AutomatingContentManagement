@@ -11,10 +11,21 @@
   when: ansible_distribution_major_version == "7"
 
 - name: Install httpd and php for RHEL 8
-  ansible.builtin.yum: 
+  ansible.builtin.dnf: 
     name:
     - "httpd"
     - "@php:7.4/common"
+    state: present
+  when: ansible_distribution_major_version == "8"
+
+- name: ensure php modules for RHEL 8
+  ansible.builtin.dnf: 
+    name:
+    - "php"
+    - "php-mysqlnd"
+    - "php-mbstring"
+    - "php-opcache"
+    - "php-gd"
     state: present
   when: ansible_distribution_major_version == "8"
 
