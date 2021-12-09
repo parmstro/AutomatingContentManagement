@@ -1,0 +1,61 @@
+---
+- name: Simple test
+  hosts: all
+
+  tasks:
+    - name: GET index.php
+      uri:
+        url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/index.php"
+        method: GET
+        status_code: 200
+        return_content: yes
+      register: php_result
+
+    - debug:
+        var: php_result
+
+    - set_fact:
+        testval: "{{ php_result.content | regex_search('Canada', multiline=True, ignorecase=True) }}"
+
+    - debug:
+        var: testval
+
+
+    - name: Fail if search for database result cant find Canada entry
+      fail:
+        msg: "Configuration Failed - could not set up default site"
+      when: php_result.content is not search("<td>Canada</td>")
+
+    - name: Get Home Page
+      uri: 
+        url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/index.html"
+        method: GET
+        status_code: 200
+        return_content: yes
+      register: home_result
+
+    - set_fact:
+        search_string: "This page deployed via Ansible on date: {{ ansible_date_time.date }}"
+
+    - name: Fail if home page content is not up to date.
+      fail:
+        msg: "Configuration Failed - could not find home page content"
+      when: home_result.content is not search(search_string)
+  
+    - name: Get About Page
+      uri: 
+        url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/about.html"
+        method: GET
+        status_code: 200
+        return_content: yes
+      register: about_result
+
+    - set_fact:
+        search_string: "She departed on {{ ansible_date_time.weekday }}"
+
+    - name: Fail if about page content is not up to date. 
+      fail:
+        msg: "Configuration Failed - could not find about page content"
+      when: about_result.content is not search(search_string)
+  
+
