@@ -9,63 +9,67 @@
 # Test home page
 # Check about page
 
-- block:
-    - name: GET index.php
-      uri: 
-        url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/index.php"
-        method: GET
-        status_code: 200
-        return_content: yes
-      register: php_result
+- name: LAMP deployment test
+  hosts: all
 
-    - name: Fail if list of databases does not include nation 
-      fail:
-        msg: "Configuration Failed - could not find database 'nation'"
-      when: php_result.content is not search("nation")
-  
-    - name: Fail if search for database result cant find Canada entry
-      fail:
-        msg: "Failed to find expected record - could not find 'Canada' entry"
-      when: php_result.content is not search("Canada")
-        
-    - name: Database and PHP test succeeded
-      debug:
-        msg: Success
+  tasks:
+  - block:
+      - name: GET index.php
+        uri: 
+          url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/index.php"
+          method: GET
+          status_code: 200
+          return_content: yes
+        register: php_result
 
-    - name: Get Home Page
-      uri:
-        url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/index.html"
-        method: GET
-        status_code: 200
-        return_content: yes
-      register: home_result
+      - name: Fail if list of databases does not include nation 
+        fail:
+          msg: "Configuration Failed - could not find database 'nation'"
+        when: php_result.content is not search("nation")
+    
+      - name: Fail if search for database result cant find Canada entry
+        fail:
+          msg: "Failed to find expected record - could not find 'Canada' entry"
+        when: php_result.content is not search("Canada")
+          
+      - name: Database and PHP test succeeded
+        debug:
+          msg: Success
 
-    - set_fact:
-        search_string: "This page deployed via Ansible on date: {{ ansible_date_time.date }}"
+      - name: Get Home Page
+        uri:
+          url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/index.html"
+          method: GET
+          status_code: 200
+          return_content: yes
+        register: home_result
 
-    - name: Fail if home page content is not up to date.
-      fail:
-        msg: "Configuration Failed - could not find home page content"
-      when: home_result.content is not search(search_string)
+      - set_fact:
+          search_string: "This page deployed via Ansible on date: {{ ansible_date_time.date }}"
 
-    - name: Get About Page
-      uri:
-        url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/about.html"
-        method: GET
-        status_code: 200
-        return_content: yes
-      register: about_result
+      - name: Fail if home page content is not up to date.
+        fail:
+          msg: "Configuration Failed - could not find home page content"
+        when: home_result.content is not search(search_string)
 
-    - set_fact:
-        search_string: "She departed on {{ ansible_date_time.weekday }}"
+      - name: Get About Page
+        uri:
+          url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/about.html"
+          method: GET
+          status_code: 200
+          return_content: yes
+        register: about_result
 
-    - name: Fail if about page content is not up to date.
-      fail:
-        msg: "Configuration Failed - could not find about page content"
-      when: about_result.content is not search(search_string)
+      - set_fact:
+          search_string: "She departed on {{ ansible_date_time.weekday }}"
 
-    - name: All tests succeeded
-      debug:
-        msg: Success
+      - name: Fail if about page content is not up to date.
+        fail:
+          msg: "Configuration Failed - could not find about page content"
+        when: about_result.content is not search(search_string)
 
-  when: install_grafana == false
+      - name: All tests succeeded
+        debug:
+          msg: Success
+
+    when: install_grafana == false
