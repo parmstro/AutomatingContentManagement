@@ -1,6 +1,9 @@
 ---
 # This role expects a list of content views as input. See sample variables in vars/all.yml
-#
+# Currently the content_view_version is blocking - parallelizing this requires using async tasks and polling
+# Mileage will vary depending on the size of your content views. This is left as an exercise for the reader...
+# See: https://docs.ansible.com/ansible/latest/user_guide/playbooks_async.html
+# All Content Views should be published before any Composite Content views - the blocking nature of the call ensures this today.
 
 - name: Update the Errata-by-date filter for content views
   redhat.satellite.content_view_filter:
