@@ -24,6 +24,7 @@ wp_blog_public: false
 # WordPress site is not restricted by a named host.
 nginx_port: 80
 server_hostname: "{{ ansible_fqdn }}"
+acm_nginx_conf_file: "acm.conf"
 
 # Disable All Updates
 # By default automatic updates are enabled, set this value to true to disable all automatic updates

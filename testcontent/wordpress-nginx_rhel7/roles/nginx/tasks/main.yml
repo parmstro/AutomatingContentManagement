@@ -15,7 +15,13 @@
 - name: Copy nginx configuration for wordpress
   ansible.builtin.template: 
     src: default.conf 
-    dest: /etc/nginx/nginx.conf
+    dest: "/etc/nginx/conf.d/{{acm_nginx_conf_file }}"
+  notify: restart nginx
+
+- name: Update the main nginx config
+  ansible.builtin.template: 
+    src: nginx.conf 
+    dest: "/etc/nginx/nginx.conf"
   notify: restart nginx
 
 - name: insert firewalld rule for nginx
