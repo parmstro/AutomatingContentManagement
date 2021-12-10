@@ -64,7 +64,7 @@
 - name: Deploy the standalone xml
   ansible.builtin.template:
     src: standalone.xml.j2
-    dest: "{{ jboss_configuration_dir }}/standalone.xml"
+    dest: "{{ jboss_config_dir }}/standalone.xml"
 
 - name: build and deploy the sample app
   ansible.builtin.command:
