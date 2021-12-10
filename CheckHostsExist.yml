@@ -1,0 +1,14 @@
+---
+# This is a simple test to see if the hosts exist.
+# If this fails for any reason, we clean up the test environment complete
+
+- name: Check if hosts exist by getting facts
+  hosts: all
+  gather_facts: true
+
+  tasks:
+
+  - name: Ping the host
+    ansible.builtin.ping:
+      data: "{{ ansible_fqdn }} exists"
+      
