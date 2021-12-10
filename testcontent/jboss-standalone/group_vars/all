@@ -10,7 +10,7 @@ app_fingerprint: "{{ sample_app_root }}/c0df90d8-5173-4e65-bc82-88b6033fc6a7"
 # /opt/rh/eap7/wildfly/
 # server_config values are domain or standalone
 server_config: "standalone"
-jboss_home: "/opt/rh/eap7/wildfly"
+jboss_home: "/opt/rh/eap7/root/usr/share/wildfly"
 jboss_base_dir: "{{ jboss_home }}/{{ server_config }}"
 jboss_config_dir: "{{jboss_base_dir }}/configuration"
 jboss_module_path: "{{jboss_home }}/modules"
