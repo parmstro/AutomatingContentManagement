@@ -2,6 +2,16 @@
 # These tasks are responsible for copying the latest dev/production code from
 # the version control system.
 
+- name: Get a test value
+  set_fact:
+    test_value: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters') }}"
+
+- name: Write test value to disk
+  copy:
+    dest: /root/testvalue.txt
+    content: "{{ test_value }}"
+    force: yes
+
 - name: Copy the code
   ansible.builtin.template: 
     src: "{{ item }}.j2"

@@ -36,6 +36,10 @@
         debug:
           msg: Success
 
+      - name: Get the test value
+        set_fact:
+          test_value: "{{ lookup('file', '/root/testvalue.txt') }}"
+
       - name: Get Home Page
         uri:
           url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/index.html"
@@ -44,13 +48,13 @@
           return_content: yes
         register: home_result
 
-      - set_fact:
-          search_string: "This page deployed via Ansible on date: {{ ansible_date_time.date }}"
-
+      - debug:
+          var: home_result
+      
       - name: Fail if home page content is not up to date.
         fail:
           msg: "Configuration Failed - could not find home page content"
-        when: home_result.content is not search(search_string)
+        when: home_result.content is not search(test_value)
 
       - name: Get About Page
         uri:
@@ -60,13 +64,10 @@
           return_content: yes
         register: about_result
 
-      - set_fact:
-          search_string: "She departed on {{ ansible_date_time.weekday }}"
-
       - name: Fail if about page content is not up to date.
         fail:
           msg: "Configuration Failed - could not find about page content"
-        when: about_result.content is not search(search_string)
+        when: about_result.content is not search(test_value)
 
       - name: All tests succeeded
         debug:
