@@ -11,8 +11,8 @@
     dest: /root/testvalue.txt
     content: "{{ test_value }}"
     force: yes
-  delegate_to: localhost
-  
+  delegate_to: 127.0.0.1
+
 - name: Copy the code
   ansible.builtin.template: 
     src: "{{ item }}.j2"
