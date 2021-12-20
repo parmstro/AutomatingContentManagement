@@ -37,11 +37,11 @@
           msg: Success
 
       - name: Get the test value
-        set_fact:
-          test_value: "{{ lookup('file', '/root/testvalue.txt') }}"
-
+        command: "cat /root/testvalue.txt"
+        register: test_value
+       
       - debug:
-          var: test_value
+          var: test_value.stdout
     
       - name: Get Home Page
         uri:
@@ -57,7 +57,7 @@
       - name: Fail if home page content is not up to date.
         fail:
           msg: "Configuration Failed - could not find home page content"
-        when: home_result.content is not search(test_value)
+        when: home_result.content is not search(test_value.stdout)
 
       - name: Get About Page
         uri:
@@ -70,7 +70,7 @@
       - name: Fail if about page content is not up to date.
         fail:
           msg: "Configuration Failed - could not find about page content"
-        when: about_result.content is not search(test_value)
+        when: about_result.content is not search(test_value.stdout)
 
       - name: All tests succeeded
         debug:
