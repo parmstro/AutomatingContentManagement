@@ -8,7 +8,7 @@
 
 - name: Write test value to disk
   copy:
-    dest: /root/testvalue.txt
+    dest: /etc/testvalue.txt
     content: "{{ test_value }}"
     force: yes
 

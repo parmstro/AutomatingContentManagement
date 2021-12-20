@@ -38,7 +38,7 @@
 
       - name: Get the test value
         set_fact:
-          test_value: "{{ lookup('file', '/root/testvalue.txt') }}"
+          test_value: "{{ lookup('file', '/etc/testvalue.txt') }}"
 
       - debug:
           var: test_value
