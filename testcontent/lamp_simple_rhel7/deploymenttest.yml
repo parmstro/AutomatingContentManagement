@@ -67,6 +67,9 @@
           return_content: yes
         register: about_result
 
+      - debug:
+          var: about_result
+      
       - name: Fail if about page content is not up to date.
         fail:
           msg: "Configuration Failed - could not find about page content"
