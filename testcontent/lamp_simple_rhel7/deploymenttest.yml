@@ -40,6 +40,9 @@
         set_fact:
           test_value: "{{ lookup('file', '/root/testvalue.txt') }}"
 
+      - debug:
+          var: test_value
+    
       - name: Get Home Page
         uri:
           url: "http://{{ ansible_fqdn }}:{{ httpd_port }}/index.html"
