@@ -8,10 +8,11 @@
 
 - name: Write test value to disk
   copy:
-    dest: /etc/testvalue.txt
+    dest: /root/testvalue.txt
     content: "{{ test_value }}"
     force: yes
-
+  delegate_to: localhost
+  
 - name: Copy the code
   ansible.builtin.template: 
     src: "{{ item }}.j2"
