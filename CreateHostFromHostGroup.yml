@@ -26,3 +26,13 @@
       search_regex: OpenSSH
       delay: 600
     connection: local
+
+  - name: Wait an additional 3 min for systems to complete post configuration.
+    wait_for:
+      timeout: 600
+      sleep: 60
+      port: 22
+      host: "{{ inventory_hostname }}"
+      search_regex: OpenSSH
+      delay: 180
+    connection: local
