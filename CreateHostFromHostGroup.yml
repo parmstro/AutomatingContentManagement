@@ -17,12 +17,12 @@
     debug:
       msg: "Call to wait_for is on 300s delay - log will display when it first executes"
 
-  - name: Wait 1h for systems to come up on port 22 and contain "OpenSSH" - checking every 60s
+  - name: Wait 2h for systems to come up on port 22 and contain "OpenSSH" - checking every 60s
     wait_for:
-      timeout: 3600
+      timeout: 7200
       sleep: 60
       port: 22
       host: "{{ inventory_hostname }}"
       search_regex: OpenSSH
-      delay: 300
+      delay: 600
     connection: local
