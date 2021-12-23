@@ -4,7 +4,7 @@
 - name: Delete all the vm snapshots for the list of hosts
   hosts: all
   vars_files:
-  - vars/vault_vmware.yml
+  - vars/vault.yml
   - vars/vmware.yml
   vars:
     current_state: remove_all
