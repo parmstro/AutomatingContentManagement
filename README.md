@@ -16,23 +16,17 @@ The goal behind the blog and the code is to model a methodology for automating t
 
 The main plays for automating Satellite are in the root of the repo. If you are using VMs for testing your content views and want to snapshot them you will find the ansible code under the vmware folder. The testcontent folder contains the ansible sample code to build the test systems. These are very simple as I don't know what your environment may look like, so these use generic examples - you are welcome to replace these ansible plays with something that is more suited to your environment. If you have any good ideas, pull requests are welcome.
 
-In the Part 2 blog post, there is a chart that explains what goes where. It is copied below for reference
-
-
-| Template Name  | Type | Inventory               | Playbook        | Credentials |
-|----------------|------|-----------              |----------       |-------------|
-| ACM1PublishContent | Run  | TheAutomationController | PublishOnly.yml | SSH:default Vault:satellite |
-| ACM2PromoteToDev   | Run  | TheAutomationController | PromoteOnly.yml | SSH:default Vault:satellite |
-| ACM3CreateTestEnv  | Run  | TheAutomationController | CreateHostFromHostGroup.yml | SSH:default Vault:satellite |
-| ACM4CreateSnapshots| Run  | TheAutomationController | vmware/create_snapshot_vm.yml | SSH:default Vault:vmware  |
-| ACM5BuildLAMP      | Run  | testinventory [LAMP]    |
-| ACM5BuildJBoss     | Run  | testinventory [JBOSS]   |
-| ACM5BuildWordPress | Run  | testinventory [WP]      |
-| ACM6PromoteToQA    | Run  | TheAutomationController | PromoteOnly.yml | SSH:default Vault:satellite |
-| ACM7DeleteSnaps    | Run  | TheAutomationController | vmware/delete_snapshot_vm.yml | SSH:default Vault:satellite |
-| ACMWMonthlyContent | Workflow | n/a | n/a | n/a |
-
+In the Part 2 blog post, there is an appendix that lists all of the assets that are required in AAP to create the workflow. This Appendix is reproduced on the wiki for this project.
 
 If you have problems with the code functionality please create an issue so that we can work together to resolve it.
 
 
+## What we are working on
+
+Our next step will be to write code that:
+- exports our content view and composite content view definitions 
+- exports our provisioning definitions 
+- recreates our content view and composite content views from exported definitions
+- recreates our hostgroups, operating systems, media, etc.. from exported definitions
+
+Much of the creation code already exists in repositories in this github and will be refined to work with the code provided here.
