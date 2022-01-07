@@ -4,7 +4,7 @@
 description: "Published by ansible-tower on {{ ansible_date_time.date }}"
 filter_enddate: "{{ ansible_date_time.date }}"
 num_cvs_to_keep: 3
-force_publish: false
+force_publish: true
 content_views:
   - name: "RHEL7_SOE"
     desc: "Red Hat Enterprise Linux 7 Standard Operating Environment Content"
