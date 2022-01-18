@@ -1,7 +1,6 @@
+# the inventory is defined on the AAP controller
 [webservers]
 testlamp.parmstrong.ca
 
 [dbservers]
 testlamp.parmstrong.ca
-
-
