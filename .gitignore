@@ -1,0 +1,5 @@
+group_vars/.vault_all.yml
+group_vars/vault_all.yml
+ansible.cfg
+ansible.log
+group_vars/all.yml
