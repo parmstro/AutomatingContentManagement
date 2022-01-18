@@ -1,0 +1,3 @@
+vault_wp_db_name: your_wordpress_dbname
+vault_wp_db_user: your_wordpress_dbuser
+vault_wp_db_password: your_wordpress_dbuser_password

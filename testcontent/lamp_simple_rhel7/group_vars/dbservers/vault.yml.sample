@@ -1,0 +1,3 @@
+vault_dbuser: your_mysqluser
+vault_dbname: your_dbname
+vault_dbuser_password: your_dbuser_password
