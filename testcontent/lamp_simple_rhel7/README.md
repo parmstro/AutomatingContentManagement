@@ -1,16 +1,12 @@
-Building a simple LAMP stack and deploying Application using Ansible Playbooks.
--------------------------------------------
+## Building and testing a simple LAMP stack
+- Requires Ansible 2.9 or newer
+- Expects CentOS/RHEL 7.x or 8.x host/s
 
-These playbooks require Ansible 1.2.
+This section is designed for use as a demonstration tool for Automated Content Management with Satellite and Ansible Automation Platform. The plays get called after initial content publishing from Satellite to test the new content and images.
 
-These playbooks are meant to be a reference and starter's guide to building
-Ansible Playbooks. These playbooks were tested on CentOS 7.x so we recommend
-that you use CentOS or RHEL to test these modules.
+e.g. "These playbooks test the deployment our company standard image with our release version of our standard LAMP Stack configuration."
 
-RHEL7 version reflects changes in Red Hat Enterprise Linux and CentOS 7:
-1. Network device naming scheme has changed
-2. iptables is replaced with firewalld
-3. MySQL is replaced with MariaDB
+The playbooks will configure MariaDB, apache, PHP-FPM and load a sample database of Global GNP data. Non-sensitive variables are stored in main.yml in the groups directory or in the all.yml under group_vars, sensitive variables are stored in an encrypted vault.yml file. You will need to create your own vault.yml files All vaulted variables are  preceded by vault_ and should be reproduced in your vault.yml file. See the vault.yml.sample file
 
 This LAMP stack can be on a single node or multiple nodes. The inventory file
 'hosts' defines the nodes in which the stacks should be configured.
@@ -19,14 +15,7 @@ This LAMP stack can be on a single node or multiple nodes. The inventory file
         localhost
 
         [dbservers]
-        bensible
+        lampdb
 
-Here the webserver would be configured on the local host and the dbserver on a
-server called `bensible`. The stack can be deployed using the following
-command:
+For Automating Content Management, you will define your test host inventory on the controller node and use limits to target the appropriate nodes for jobs.
 
-        ansible-playbook -i hosts site.yml
-
-Once done, you can check the results by browsing to http://localhost/index.php.
-You should see a simple test page and a list of databases retrieved from the
-database server.

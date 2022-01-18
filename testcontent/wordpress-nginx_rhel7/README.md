@@ -7,6 +7,4 @@ This section is designed for use as a demonstration tool for Automated Content M
 
 e.g. "These playbooks smoke test the deployment our company standard image with our release version of our departmental blogging platform WordPress using our standard Nginx web server and PHP-FPM process manager."
 
-The plays can be configured to generate errors so that Ansible workflow templates can be demonstrated. See the variables file.
-
-The playbooks will configure MariaDB, WordPress, Nginx, and PHP-FPM. When the run is complete, you can hit access server to begin the WordPress configuration. Group direcotries are used. Non-sensitive variables are stored in main.yml in the groups directory under group_vars, sensitive variables are stored in an  encrypted vault.yml file. You will need to create your own vault.yml files All vaulted variables are  preceded by vault_ and should be reproduced in your vault.yml file.
+The playbooks will configure MariaDB, WordPress, Nginx, and PHP-FPM. Non-sensitive variables are stored in main.yml in the groups directory under group_vars, sensitive variables are stored in an encrypted vault.yml file. You will need to create your own vault.yml files All vaulted variables are  preceded by vault_ and should be reproduced in your vault.yml file. See the vault.yml.sample file

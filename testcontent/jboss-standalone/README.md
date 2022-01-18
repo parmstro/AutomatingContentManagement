@@ -3,22 +3,17 @@
 - Requires Ansible 2.9 or newer
 - Expects CentOS/RHEL 7 or 8 hosts
 
-The purpose of this fork is specifically to provide sample applications for 
-a demonstration environment implementing a wide variety of Red Hat software
-in integrated deployment.
+This section is designed for use as a demonstration tool for Automated Content Management with Satellite and Ansible Automation Platform. The plays get called after initial content publishing from Satellite to test the new content and images.
 
-This group of plays and roles is designed to deploy any of the WildFly.org sample
-applications to a Standalone JBoss server implementation.
+e.g. "These playbooks test the deployment our company standard image with our release version of our departmental standard JBoss 7.4 EAP content as a standalone server"
 
-The role currently deploys a JBoss 7.3 installation from RPM. This requires
-that you have the rpm content hosted locally in repositories or are using the Red Hat
-repos on cdn.redhat.com or a Satellite server and have a subscription to access them.
-Other deployment methods are possible with minor modifications.
+This group of plays and roles is designed to deploy any of the WildFly.org sample applications to a Standalone JBoss server implementation. Non-sensitive variables are stored in main.yml in the groups directory under group_vars. If you require sensitive variables, store them in an encrypted vault.yml file. You will need to create your own vault.yml files The standard used throughout is that vaulted variables are preceded by vault_ and should be reproduced in your vault.yml file and then referenced in the variable files controlling the plays. 
 
-** How to Use 
+The code deploys a JBoss 7.4 standalone installation from RPM. This project requires that you have the rpm content hosted in a Satellite server and have a subscription to access them. Other deployment methods are possible with minor modifications.
 
-These plays can be used on a standalone ansible control node or integrated with 
-Red Hat Ansible Automation Platform (Tower). 
+### How to Use 
+
+This project is included as part of a group of test applications for use with a Red Hat Ansible Automation Platform Controller as part of the Automating Content Management repo. The inventory is defined on the controller.
 
 If running using a standalone control node or local system edit the inventory 
 to specify the FQDNs of your target machines. Edit the group_vars/all file 
