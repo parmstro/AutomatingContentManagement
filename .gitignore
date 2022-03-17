@@ -1,6 +1,2 @@
 ansible.cfg
 ansible.log
-group_vars/all/vault.yml
-testcontent/lamp_simple_rhel7/group_vars/dbservers/vault.yml
-testcontent/wordpress-nginx_rhel7/group_vars/wordpress-server/vault.yml
-vmware/vars/vault.yml
