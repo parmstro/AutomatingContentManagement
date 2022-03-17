@@ -35,7 +35,7 @@
           - "@maven:3.6/common"
           - "@python36/common" 
           - "@javapackages-runtime/common"
-          - "@jboss-eap7"
+          - "eap7-wildfly"
           - git
         state: present
 
