@@ -11,5 +11,5 @@
         satellite_password: "{{ sat_publisher_password }}"
         satellite_organization: "{{ sat_organization }}"
         satellite_validate_certs: "{{ sat_validate_certs }}"
-        satellite_content_view_version_cleanup_keep: 3
-        search: "name ~ RHEL8_SOE"
+        satellite_content_view_version_cleanup_keep: "{{ num_cvs_to_keep }}"
+        search: "{{ cv_search }}"
