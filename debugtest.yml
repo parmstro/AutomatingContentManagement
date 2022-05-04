@@ -1,0 +1,32 @@
+---
+# Debug test 
+- name: Publish the configured Content Views and Composite Content Views
+  hosts: all
+  connection: local
+  vars:
+    cv_name: "RHEL8_SOE"
+    cv_versions:
+    - "38.0"
+    - "39.0"
+    - "40.0"
+    satellite_server_url: "{{ sat_server_url }}"
+    satellite_username: "{{ sat_publisher_username }}"
+    satellite_password: "{{ sat_publisher_password }}"
+    satellite_validate_certs: "{{ sat_validate_certs }}"
+    satellite_organization: "{{ sat_organization }}"
+
+  tasks:
+
+  - name: "delete content view versions of {{ cv_name }}"
+    redhat.satellite.content_view_version:
+      server_url: "{{ satellite_server_url | default(omit) }}"
+      username: "{{ satellite_username | default(omit) }}"
+      password: "{{ satellite_password | default(omit) }}"
+      validate_certs: "{{ satellite_validate_certs | default(omit) }}"
+      organization: "{{ satellite_organization }}"
+      content_view: "{{ cv_name }}"
+      version: "{{ cv_version }}"
+      state: absent
+    loop: "{{ cv_versions }}"
+    loop_control:
+      loop_var: "cv_version"
