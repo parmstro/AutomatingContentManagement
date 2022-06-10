@@ -16,7 +16,7 @@
       description: "{{ description }}"
       current_lifecycle_environment: "{{ current_lce }}"
       lifecycle_environments: "{{ target_lce }}"
-    loop: "{{ content_views | d([]) }}"
+    loop: "{{ content_views | default([], true) }}"
 
   - name: Promote the configured composite content views
     redhat.satellite.content_view_version:
@@ -29,7 +29,7 @@
       description: "{{ description }}"
       current_lifecycle_environment: "{{ current_lce }}"
       lifecycle_environments: "{{ target_lce }}"
-    loop: "{{ composite_content_views | d([]) }}"
+    loop: "{{ composite_content_views | default([], true) }}"
 
   when: force_promote == true
 
