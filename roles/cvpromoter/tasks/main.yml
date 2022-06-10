@@ -16,8 +16,7 @@
       description: "{{ description }}"
       current_lifecycle_environment: "{{ current_lce }}"
       lifecycle_environments: "{{ target_lce }}"
-    loop: "{{ content_views }}"
-    when: content_views != None
+    loop: "{{ content_views | list }}"
 
   - name: Promote the configured composite content views
     redhat.satellite.content_view_version:
@@ -30,8 +29,8 @@
       description: "{{ description }}"
       current_lifecycle_environment: "{{ current_lce }}"
       lifecycle_environments: "{{ target_lce }}"
-    loop: "{{ composite_content_views }}"
-    when: composite_content_views != None
+    loop: "{{ composite_content_views | list }}"
+    
   when: force_promote == true
 
   # Always promote if force promote is true
