@@ -23,8 +23,7 @@
       date_type: "updated" # default
       end_date: "{{ filter_enddate }}"
       inclusion: True
-    loop: "{{ content_views }}"
-    when: content_views is iterable
+    loop: "{{ content_views | d([]) }}"
     
   - name: Publish the new content view version
     redhat.satellite.content_view_version:
@@ -35,8 +34,8 @@
       organization: "{{ sat_organization }}"
       validate_certs: "{{ sat_validate_certs }}"
       description: "{{ description }}"
-    loop: "{{ content_views }}"
-    when: content_views is iterable
+    loop: "{{ content_views | d([]) }}"
+    
 
   - name: Publish the new composite content views version
     redhat.satellite.content_view_version:
@@ -47,8 +46,7 @@
       organization: "{{ sat_organization }}"
       validate_certs: "{{ sat_validate_certs }}"
       description: "{{ description }}"
-    loop: "{{ composite_content_views }}"
-    when: content_views is iterable
+    loop: "{{ composite_content_views | d([]) }}"
 
   when: force_publish == true
 
