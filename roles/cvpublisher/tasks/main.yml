@@ -36,7 +36,7 @@
       validate_certs: "{{ sat_validate_certs }}"
       description: "{{ description }}"
     loop: "{{ content_views }}"
-    when: content_views|length > 0
+    when: content_views != None
 
   - name: Publish the new composite content views version
     redhat.satellite.content_view_version:
@@ -48,6 +48,6 @@
       validate_certs: "{{ sat_validate_certs }}"
       description: "{{ description }}"
     loop: "{{ composite_content_views }}"
-    when: composite_content_views|length > 0
+    when: composite_content_views != None
   when: force_publish == true
 
