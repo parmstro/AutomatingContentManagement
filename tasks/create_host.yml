@@ -16,7 +16,9 @@
 
   - set_fact:
       discovered_hosts_resources: "{{ resources }}"
-    no_log: true
+  
+  - debug:
+      var: discovered_hosts_resources
 
   - set_fact:
       mac: "{{ mac }}"
@@ -25,7 +27,7 @@
     # when: item.facts_hash.interfaces.split(',')|length > discovered_host_req_nic_count 
     loop: "{{ discovered_hosts_resources }}"
     register: hosts_macs_results
-    no_log: true
+    
 
   - debug:
       var: hosts_macs_results
