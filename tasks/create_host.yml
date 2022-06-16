@@ -35,7 +35,7 @@
 
   - name: "Selecting first discovered host matching criteria"
     set_fact:
-      target: "{{ hosts_macs_results.results | json_query('[].ansible_facts') | list | first  }}"
+      target: "{{ hosts_macs_results.results | json_query('[].ansible_facts') | list | shuffle | first  }}"
   
   - set_fact:
       target_mac: "{{ target.discovered_mac }}"
