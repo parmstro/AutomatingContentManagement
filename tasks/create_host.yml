@@ -19,6 +19,7 @@
   
   - debug:
       var: discovered_hosts_resources
+    when: debugger == true
 
   - set_fact:
       discovered_mac: "{{ dhr.mac }}"
@@ -32,7 +33,8 @@
     
   - debug:
       var: hosts_macs_results
-
+    when: debugger == true
+    
   - name: "Selecting first discovered host matching criteria"
     set_fact:
       target: "{{ hosts_macs_results.results | json_query('[].ansible_facts') | list | shuffle | first  }}"
@@ -45,6 +47,7 @@
       var: 
         - target_mac
         - target_name
+    when: debugger == true
         
   when: compute_resource == "Baremetal" and mac == "ff:ff:ff:ff:ff:ff"
   delegate_to: localhost
