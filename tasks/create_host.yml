@@ -21,33 +21,31 @@
       var: discovered_hosts_resources
 
   - set_fact:
-      mac: "{{ item.mac }}"
-      name: "{{ item.name }}"
+      discovered_mac: "{{ dhr.mac }}"
+      discovered_name: "{{ dhr.name }}"
     # when condition is using > to account for local interface always in list
     when: item.facts_hash.interfaces.split(',')|length > discovered_host_req_nic_count 
     loop: "{{ discovered_hosts_resources }}"
+    loop_control:
+      loop_var: dhr
     register: hosts_macs_results
     
-
   - debug:
       var: hosts_macs_results
-    when: debugger == true
 
   - name: "Selecting first discovered host matching criteria"
     set_fact:
       target: "{{ hosts_macs_results.results | json_query('[].ansible_facts') | list | first  }}"
   
   - set_fact:
-      target_mac: "{{ target.mac }}"
-      target_name: "{{ target.name }}"
+      target_mac: "{{ target.discovered_mac }}"
+      target_name: "{{ target.discovered_name }}"
 
   - debug:
       var: 
         - target_mac
         - target_name
         
-    when: debugger == true
-  
   when: compute_resource == "Baremetal" and mac == "ff:ff:ff:ff:ff:ff"
   delegate_to: localhost
 
