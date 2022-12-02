@@ -1,0 +1,16 @@
+--- 
+# This task creates the defined content view from the structure in all.yml
+# Then iterates over the list of filters when defined
+  
+  - name: "Remove the content view - {{ cv.name }}"
+    redhat.satellite.content_view:
+      username: "{{ sat_publisher_username }}"
+      password: "{{ sat_publisher_password }}"
+      server_url: "{{ sat_server_url }}"
+      organization: "{{ sat_organization }}"
+      validate_certs: "{{ sat_validate_certs }}"
+      name: "{{ cv.name }}"
+      state: absent
+    register: result
+
+  

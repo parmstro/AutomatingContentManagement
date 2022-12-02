@@ -1,0 +1,19 @@
+---
+# This task uses a block to remove the composite content views and content views from a definition suppied in all.yml
+# Both types of content views can be removed by the same module in redhat.satellite, however, for dependency reasons
+# composite content views must be removed first
+
+- name: "Process the list of composite content views to be removed"
+  include_tasks: remove_cv.yml
+  loop: "{{ composite_content_views }}"
+  loop_control:
+    loop_var: cv
+  when: composite_content_views is defined
+
+
+- name: "Process the list of content views to be removed"
+  include_tasks: remove_cv.yml
+  loop: "{{ content_views }}"
+  loop_control:
+    loop_var: cv
+  when: content_views is defined
