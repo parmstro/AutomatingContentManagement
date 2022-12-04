@@ -31,12 +31,19 @@
   
     - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
       ansible.builtin.dnf:
-        name:
-          - "@maven:3.6/common"
-          - "@python36/common" 
-          - "@javapackages-runtime/common"
-          - "@jboss-eap7"
-          - git
+        name: "@jboss-eap7"
+        state: present
+    - ansible.builtin.dnf:
+        name: "@javapackages-runtime/common"
+        state: present
+    - ansible.builtin.dnf:
+        name: "@maven:3.6/common"
+        state: present
+    - ansible.builtin.dnf:      
+        name:  "@python36/common" 
+        state: present
+    - ansible.builtin.dnf:
+        name:  "git"
         state: present
 
   when: ansible_distribution_major_version == "8"
