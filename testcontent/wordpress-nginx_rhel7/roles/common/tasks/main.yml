@@ -3,7 +3,7 @@
 
 - name: Ensure repos are available on RHEL 8
   community.general.rhsm_repository:
-    name: 
+    name:
       - "{{ epel8_rpms_repo_name }}"
       - "{{ epel8_streams_repo_name }}"
   when: ansible_distribution_major_version == "8"
@@ -14,12 +14,12 @@
   when: ansible_distribution_major_version == "7"
 
 - name: Install Firewalld
-  ansible.builtin.yum: 
-    name: firewalld 
-    state: latest
+  ansible.builtin.yum:
+    name: firewalld
+    state: present
 
 - name: Firewalld service state
-  ansible.builtin.service: 
-    name: firewalld 
-    state: started 
+  ansible.builtin.service:
+    name: firewalld
+    state: started
     enabled: true
