@@ -1,0 +1,6 @@
+---
+collections: 
+- redhat.satellite
+- community.general
+- community.postgresql
+- community.mysql
