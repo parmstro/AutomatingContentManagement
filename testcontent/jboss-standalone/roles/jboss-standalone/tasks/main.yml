@@ -92,6 +92,7 @@
   ansible.posix.firewalld:
     immediate: yes
     port: "{{ port_protocol }}"
+    zone: "public"
     state: enabled
     permanent: yes
   loop:
