@@ -1,6 +1,9 @@
 ---
 collections: 
-- redhat.satellite
+- name: redhat.satellite
+  version: ">=3.10"
+  type: galaxy
+  source: https://console.redhat.com/api/automation-hub/content/5258694-synclist/
 - community.general
 - community.postgresql
 - community.mysql
