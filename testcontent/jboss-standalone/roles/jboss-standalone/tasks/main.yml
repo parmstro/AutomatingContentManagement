@@ -32,19 +32,19 @@
     - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
       ansible.builtin.yum:
         name: "@jboss-eap7"
-        state: present
+        state: latest
     - ansible.builtin.yum:
         name: "@javapackages-runtime/common"
-        state: present
+        state: latest
     - ansible.builtin.yum:
         name: "@maven:3.6/common"
-        state: present
+        state: latest
     - ansible.builtin.yum:      
         name:  "@python36/common" 
-        state: present
+        state: latest
     - ansible.builtin.yum:
         name:  "git"
-        state: present
+        state: latest
 
   when: ansible_distribution_major_version == "8"
 
