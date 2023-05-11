@@ -33,16 +33,16 @@
       ansible.builtin.yum:
         name: "@jboss-eap7"
         state: latest
-    - ansible.builtin.yum:
+    - ansible.builtin.dnf:
         name: "@javapackages-runtime/common"
         state: latest
-    - ansible.builtin.yum:
+    - ansible.builtin.dnf:
         name: "@maven:3.6/common"
         state: latest
-    - ansible.builtin.yum:      
+    - ansible.builtin.dnf:      
         name:  "@python36/common" 
         state: latest
-    - ansible.builtin.yum:
+    - ansible.builtin.dnf:
         name:  "git"
         state: latest
 
