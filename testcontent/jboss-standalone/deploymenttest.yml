@@ -60,6 +60,6 @@
   - name: Check Result
     ansible.builtin.assert:
       that:
-        - found.Email == "bobsurunkle{{ random_number }}@bob.ca"
-        - found.Name ==  "Bob Surunkle"
-        - found.Phone == "5555551212"
+        - found[0].Email == "bobsurunkle{{ random_number }}@bob.ca"
+        - found[0].Name ==  "Bob Surunkle"
+        - found[0].Phone == "5555551212"
