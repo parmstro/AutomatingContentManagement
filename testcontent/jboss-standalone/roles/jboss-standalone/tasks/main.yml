@@ -34,10 +34,10 @@
         name: "@jboss-eap7"
         state: present
     - ansible.builtin.dnf:
-        name: "maven:3.6"
+        name: "@maven:3.6"
         state: present
     - ansible.builtin.dnf:      
-        name:  "python36:3.6" 
+        name:  "@python36:3.6" 
         state: present
     - ansible.builtin.dnf:
         name:  "git"
