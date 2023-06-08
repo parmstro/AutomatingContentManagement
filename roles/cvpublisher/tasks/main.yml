@@ -11,8 +11,8 @@
   block:
   - name: Publishing Content
     debug:
-      msg: "processing list.."
-      
+      msg: "processing list.. filter end date is {{ filter_enddate }}"
+
   - name: Update the Errata-by-date filter for content views
     redhat.satellite.content_view_filter:
       username: "{{ sat_publisher_username }}"
