@@ -25,7 +25,7 @@
       discovered_mac: "{{ dhr.mac }}"
       discovered_name: "{{ dhr.name }}"
     # when condition is using > to account for local interface always in list
-    when: dhr.facts_hash.interfaces.split(',')|length > discovered_host_req_nic_count 
+    when: dhr.facts_hash.interfaces.split(',')|length > discovered_host_req_nic_count
     loop: "{{ discovered_hosts_resources }}"
     loop_control:
       loop_var: dhr

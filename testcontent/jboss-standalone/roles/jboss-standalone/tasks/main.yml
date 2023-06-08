@@ -30,21 +30,18 @@
         name: jb-eap-7.4-for-rhel-8-x86_64-rpms
   
     - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
-      ansible.builtin.yum:
+      ansible.builtin.dnf:
         name: "@jboss-eap7"
-        state: latest
+        state: present
     - ansible.builtin.dnf:
-        name: "@javapackages-runtime/common"
-        state: latest
-    - ansible.builtin.dnf:
-        name: "@maven:3.6/common"
-        state: latest
+        name: "maven:3.6"
+        state: present
     - ansible.builtin.dnf:      
-        name:  "@python36/common" 
-        state: latest
+        name:  "python36:3.6" 
+        state: present
     - ansible.builtin.dnf:
         name:  "git"
-        state: latest
+        state: present
 
   when: ansible_distribution_major_version == "8"
 
