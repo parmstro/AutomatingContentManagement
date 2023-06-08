@@ -9,6 +9,10 @@
 
 - name: Update the content views when required
   block:
+  - name: Publishing Content
+    debug:
+      msg: "processing list.."
+      
   - name: Update the Errata-by-date filter for content views
     redhat.satellite.content_view_filter:
       username: "{{ sat_publisher_username }}"
