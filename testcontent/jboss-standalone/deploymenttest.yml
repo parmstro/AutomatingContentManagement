@@ -58,6 +58,8 @@
       msg: "{{ found }}"
 
   - name: Check Result
-    fail:
-      msg: "Data check failed - deployment unsuccessful"
-    when: found == ""
+    ansible.builtin.assert:
+      that:
+        - found.Email == "bobsurunkle{{ random_number }}@bob.ca"
+        - found.Name ==  "Bob Surunkle"
+        - found.Phone == "5555551212"
