@@ -7,11 +7,11 @@
 - name: Begin install on RHEL7 Host
   block:
 
-    - name: Ensure repos are available
+    - name: RHEL7 - Ensure repos are available
       community.general.rhsm_repository:
         name: jb-eap-7.4-for-rhel-7-x86_64-rpms
   
-    - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
+    - name: RHEL7 - Install JBoss EAP 7 group and its dependencies - uses jdk1.8
       ansible.builtin.yum:
         name: 
           - "@jboss-eap7"
@@ -24,32 +24,32 @@
 # In latest RHEL8, we must use modules
 - name: Begin install on RHEL8 Host
   block:
-    - name: Clean metadata
+    - name: RHEL8 - Clean metadata
       ansible.builtin.command: "yum clean all"
 
-    - name: Enable repo
+    - name: RHEL8 - Enable repo
       ansible.builtin.command: "subscription-manager repo enable=jb-eap-7.4-for-rhel-8-x86_64-rpms"
 
-    - name: Install JBoss EAP 7 group and its dependencies - uses jdk1.8
+    - name: RHEL8 - Install JBoss EAP 7 group and its dependencies - uses jdk1.8
       ansible.builtin.yum:
         name: "@jboss-eap7"
         state: present
 
-    - name: Install maven
+    - name: RHEL8 - Install maven
       ansible.builtin.yum:
         name: "@maven:3.6"
         state: present
 
-    - name: Install python
+    - name: RHEL8 - Install python
       ansible.builtin.yum:      
         name:  "@python36:3.6" 
         state: present
 
-    - name: Install git
+    - name: RHEL8 - Install git
       ansible.builtin.yum:
         name:  "git"
         state: present
-        
+
   when: ansible_distribution_major_version == "8"
 
 - name: Configure the JBoss EAP 7 Standalone Service
