@@ -1,0 +1,9 @@
+- name: "Delete the host"
+  redhat.satellite.host:
+    username: "{{ sat_publisher_username }}"
+    password: "{{ sat_publisher_password }}"
+    server_url: "{{ sat_server_url }}"
+    organization: "{{ sat_organization }}"
+    location: "{{ sat_location }}"
+    name: "{{ fqdn }}"
+    state: absent
