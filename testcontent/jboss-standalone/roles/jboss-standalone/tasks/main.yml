@@ -28,7 +28,7 @@
       ansible.builtin.command: "yum clean all"
 
     - name: RHEL8 - Enable repo
-      ansible.builtin.command: "subscription-manager repos enable=jb-eap-7.4-for-rhel-8-x86_64-rpms"
+      ansible.builtin.command: "subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms"
 
     - name: RHEL8 - Install JBoss EAP 7 group and its dependencies - uses jdk1.8
       ansible.builtin.yum:
