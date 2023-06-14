@@ -71,6 +71,7 @@
     state: present
     compute_attributes:
       start: "1"
+    validate_certs: "{{ sat_validate_certs }}"
   register: deploy_response
   when: compute_resource != "Baremetal" and deploy == true
   delegate_to: localhost
@@ -90,6 +91,7 @@
     state: present
     compute_attributes:
       start: "1"
+    validate_certs: "{{ sat_validate_certs }}"
   register: deploy_response
   when: compute_resource == "Baremetal" and deploy == true
   delegate_to: localhost
