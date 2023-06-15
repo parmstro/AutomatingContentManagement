@@ -7,3 +7,4 @@
     location: "{{ sat_location }}"
     name: "{{ fqdn }}"
     state: absent
+

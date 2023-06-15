@@ -34,5 +34,5 @@
       port: 22
       host: "{{ inventory_hostname }}"
       search_regex: OpenSSH
-      delay: 360
+      delay: 1800
     connection: local
