@@ -22,7 +22,7 @@
     Print  "</H2>";
     Print  "<H3>";
         {% for host in groups['dbservers'] %}
-                $link = mysqli_connect('{{ hostvars[host].default_ipv4.address }}', '{{ hostvars[host].dbuser }}', '{{ hostvars[host].upassword }}') or die(mysqli_connect_error($link));
+                $link = mysqli_connect('{{ hostvars[host].ansible_facts.default_ipv4.address }}', '{{ hostvars[host].dbuser }}', '{{ hostvars[host].upassword }}') or die(mysqli_connect_error($link));
         {% endfor %}
         $res = mysqli_query($link, "SHOW DATABASES;");
         while ($row = mysqli_fetch_assoc($res)) {
