@@ -29,6 +29,20 @@
     setype: mysqld_port_t
     state: present
 
+- name: Ensure the proper log directory
+  ansible.builtin.file:
+    path: "/var/log/mysqld/"
+    state: directory
+    owner: mysql
+    group: mysql
+
+- name: Ensure the proper pid directory
+  ansible.builtin.file:
+    path: "/var/run/mysqld/"
+    state: directory
+    owner: mysql
+    group: mysql
+    
 - name: Deploy the Mysql configuration file
   ansible.builtin.template: 
     src: my.cnf.j2 
