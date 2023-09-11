@@ -12,9 +12,8 @@
     content: "{{ test_value }}"
     force: yes
   
-- name: Debug
-  debug:
-    var: hostvars[inventory_hostname]['ansible_default_ipv4']['address']
+- ansible.builtin.set_fact:
+    target_ip: hostvars[inventory_hostname]['ansible_default_ipv4']['address']
     
 - name: Copy the code
   ansible.builtin.template: 
