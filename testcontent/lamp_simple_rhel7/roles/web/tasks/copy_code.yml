@@ -12,7 +12,10 @@
     content: "{{ test_value }}"
     force: yes
   
-
+- name: Debug
+  debug:
+    var: ansible_facts
+    
 - name: Copy the code
   ansible.builtin.template: 
     src: "{{ item }}.j2"
