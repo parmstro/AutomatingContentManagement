@@ -14,7 +14,7 @@
   
 - name: Debug
   debug:
-    var: ansible_facts
+    var: hostvars[host]
     
 - name: Copy the code
   ansible.builtin.template: 
