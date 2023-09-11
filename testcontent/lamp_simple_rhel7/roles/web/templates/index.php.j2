@@ -61,7 +61,7 @@
       <tr></tr>
       <?php
       {% for host in groups['dbservers'] %}
-        $dbconnect = mysqli_connect('{{ hostvars[host].ansible_default_ipv4.address }}', '{{ hostvars[host].dbuser }}', '{{ hostvars[host].upassword }}', 'nation') or die(mysqli_connect_error($dbconnect));
+        $dbconnect = mysqli_connect('{{ target_ip }}', '{{ hostvars[host].dbuser }}', '{{ hostvars[host].upassword }}', 'nation') or die(mysqli_connect_error($dbconnect));
       {% endfor %}
       
       $query = mysqli_query($dbconnect, "SELECT C.name,  C.country_code2,  C.area, CS.population, CS.gdp, CS.population/C.area as density, CS.gdp/CS.population as gdp_density, CS.year FROM countries C  INNER JOIN country_stats CS ON C.country_id = CS.country_id  WHERE CS.year = (SELECT max(year) FROM country_stats);")
