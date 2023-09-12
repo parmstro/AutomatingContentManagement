@@ -51,7 +51,7 @@
   - restart mariadb
 
 - name: Start MariaDB Service
-  ansible.builtin.service:
+  ansible.builtin.servicethe mysql database:
     name: mariadb 
     state: started
     enabled: true
@@ -80,7 +80,7 @@
     password: "{{ upassword }}"
     sql_log_bin: false
     priv: "*.*:ALL"
-    host: "%"
+    host: "{{ ansible_fqdn }}"
     state: present
 
 - name: Copy the sample database build files
