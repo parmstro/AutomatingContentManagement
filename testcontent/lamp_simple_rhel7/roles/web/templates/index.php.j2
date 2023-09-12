@@ -21,9 +21,7 @@
     echo  "List of Databases: </BR>";
     Print  "</H2>";
     Print  "<H3>";
-        {% for host in groups['dbservers'] %}
-                $link = mysqli_connect("{{ target_ip }}", "{{ hostvars[host].dbuser }}", "{{ hostvars[host].upassword }}") or die(mysqli_connect_error($link));
-        {% endfor %}
+        $link = mysqli_connect("{{ target_ip }}", "{{ hostvars[host].dbuser }}", "{{ hostvars[host].upassword }}") or die(mysqli_connect_error($link));
         $res = mysqli_query($link, "SHOW DATABASES;");
         while ($row = mysqli_fetch_assoc($res)) {
                 echo $row['Database'] , "<BR/>";
@@ -60,10 +58,7 @@
       </tr>
       <tr></tr>
       <?php
-      {% for host in groups['dbservers'] %}
-        $dbconnect = mysqli_connect('{{ target_ip }}', '{{ hostvars[host].dbuser }}', '{{ hostvars[host].upassword }}', 'nation') or die(mysqli_connect_error($dbconnect));
-      {% endfor %}
-      
+      $dbconnect = mysqli_connect('{{ target_ip }}', '{{ hostvars[host].dbuser }}', '{{ hostvars[host].upassword }}', 'nation') or die(mysqli_connect_error($dbconnect));
       $query = mysqli_query($dbconnect, "SELECT C.name,  C.country_code2,  C.area, CS.population, CS.gdp, CS.population/C.area as density, CS.gdp/CS.population as gdp_density, CS.year FROM countries C  INNER JOIN country_stats CS ON C.country_id = CS.country_id  WHERE CS.year = (SELECT max(year) FROM country_stats);")
       or die (mysqli_error($dbconnect));
  
