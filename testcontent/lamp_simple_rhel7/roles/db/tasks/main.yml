@@ -51,7 +51,7 @@
   - restart mariadb
 
 - name: Start MariaDB Service
-  ansible.builtin.servicethe mysql database:
+  ansible.builtin.service:
     name: mariadb 
     state: started
     enabled: true
