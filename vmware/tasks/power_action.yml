@@ -10,6 +10,7 @@
     username: "{{ vcenter_username }}"
     password: "{{ vcenter_password }}"
     name: "{{ item.name }}"
+    validate_certs: "{{ vmware_validate_certs }}"
   delegate_to: localhost
   register: vm_folder
 
@@ -27,4 +28,5 @@
     name: "{{ item.name }}"
     state: "{{ current_state }}"
     force: "{{ force }}"
+    validate_certs: "{{ vmware_validate_certs }}"
   delegate_to: localhost

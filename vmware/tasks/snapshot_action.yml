@@ -13,4 +13,5 @@
       snapshot_name: "{{ item.snap_name }}"
       description: "{{ item.snap_description }}"
       quiesce: "{{ item.quiesce }}"
+      validate_certs: "{{ vmware_validate_certs }}"
     delegate_to: localhost
