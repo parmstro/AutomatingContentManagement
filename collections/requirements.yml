@@ -3,4 +3,5 @@ collections:
 - community.general
 - community.postgresql
 - community.mysql
+- community.vmware  
 - redhat.satellite
