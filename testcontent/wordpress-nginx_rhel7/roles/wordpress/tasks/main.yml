@@ -4,9 +4,9 @@
 
 - name: Download WordPress
   ansible.builtin.get_url: 
-    url: "http://wordpress.org/wordpress-{{ wp_version }}.tar.gz"
+    url: "{{ wp_url }}"
     dest: "/srv/wordpress-{{ wp_version }}.tar.gz"
-    sha256sum: "{{ wp_sha256sum }}"
+    checksum: "{{ wp_checksum }}"
 
 - name: Extract archive
   ansible.builtin.command: 

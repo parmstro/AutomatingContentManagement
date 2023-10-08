@@ -20,7 +20,7 @@
   
 - name: Install the php modules for RHEL 8
   ansible.builtin.dnf:
-    name: "@php:7.2/common"
+    name: "@php:7.4/common"
     state: present            # needs to be present vs. latest otherwise will fail
   when:  ansible_distribution_major_version == "8"
 

@@ -5,8 +5,10 @@ epel8_streams_repo_name: "Default_Organization_EPEL8_EPEL8_Streams"
 
 epel7_rpms_repo_name: "Default_Organization_EPEL7_EPEL7"
 
-wp_version: 4.6
-wp_sha256sum: c1856cf969b1e73025ba2c681491908c3a4a6c5a2333f4531bf9bfb90f634380
+wp_version: "6.3.1"
+wp_url: "https://en-ca.wordpress.org/wordpress-{{ wp_version }}-en_CA.tar.gz"
+wp_checksum: "sha1:https://en-ca.wordpress.org/wordpress-{{ wp_version }}-en_CA.tar.gz.sha1"
+
 
 # MySQL settings
 mysqlservice: mysqld
