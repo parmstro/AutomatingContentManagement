@@ -24,15 +24,16 @@
       port: 22
       host: "{{ inventory_hostname }}"
       search_regex: OpenSSH
-      delay: 600
+      delay: 300
     connection: local
 
   - name: Wait systems to complete post configuration.
     wait_for:
-      timeout: 600
+      timeout: 900
       sleep: 60
       port: 22
       host: "{{ inventory_hostname }}"
       search_regex: OpenSSH
-      delay: 1800
+      delay: 120
     connection: local
+
