@@ -6,7 +6,7 @@
 discovered_hosts_resouce: "discovered_hosts"
 discovered_hosts_search: "disk_count = 1 and memory > 32000"
 discovered_host_req_nic_count: 1  #we use > below so does not include lo 
-host_build_comment: "Created by ansible for content test - deleteme"
+host_build_comment: "Created by ansible for content test"
 debugger: false
 deploy: true
 
