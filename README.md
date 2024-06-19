@@ -1,3 +1,6 @@
+# Deprecated: see RH-ISAM and rhisam-pipelines
+
+
 # AutomatingContentManagement
 
 This repository contains the ansible automation files for the Automating Content Management in Red Hat Satellite 6.9 with Red Hat Ansible Automation Platform Part 1 and Part 2 blog posts. The code is best used in conjunction with the blogs. 
