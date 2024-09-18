@@ -1,7 +1,7 @@
 ---
 # do the actual snapshot action - one of present, absent, revert, remove_all
 
-  - name: "Snapshot Action - snapshot state set to: {{ current_state }} for host: {{ item.name }}"
+  - name: "Snapshot Action - snapshot state set to: {{ current_state }} for host: {{ ansible_fqdn }}"
     community.vmware.vmware_guest_snapshot:
       hostname: "{{ vcenter_hostname }}"
       username: "{{ vcenter_username }}"
