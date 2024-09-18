@@ -11,4 +11,4 @@
  
   tasks:
   - include_tasks: tasks/power_action.yml
-    loop: "{{ host_list }}"
+    loop: "{{ query('inventory_hostnames', 'all') }}"
