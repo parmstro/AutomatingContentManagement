@@ -8,7 +8,7 @@
       password: "{{ vcenter_password }}"
       datacenter: "{{ datacenter_name }}"
       folder: "{{ datacenter_folder }}"
-      name: "{{ item.name }}"
+      name: "{{ item.fqdn }}"
       state: "{{ current_state }}"
       snapshot_name: "{{ item.snap_name }}"
       description: "{{ item.snap_description }}"
