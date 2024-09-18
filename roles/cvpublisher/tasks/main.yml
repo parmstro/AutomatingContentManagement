@@ -13,17 +13,17 @@
     debug:
       msg: "processing list.. filter end date is {{ filter_enddate }}"
 
-  - name: Update the Errata-by-date filter for content views
-    redhat.satellite.content_view_filter:
+  - name: Update the Errata-by-date filter rule for content views
+    redhat.satellite.content_view_filter_rule:
       username: "{{ sat_publisher_username }}"
       password: "{{ sat_publisher_password }}"
       server_url: "{{ sat_server_url }}"
-      name: "{{ item.date_filter_name}}"
       organization: "{{ sat_organization }}"
       validate_certs: "{{ sat_validate_certs }}"
       content_view: "{{ item.name }}"
+      content_view_filter: "{{ item.date_filter_name}}"
       description: "{{ description }}"
-      filter_type: "erratum" # required for date filter
+      state: present
       date_type: "updated" # default
       end_date: "{{ filter_enddate }}"
       inclusion: True
