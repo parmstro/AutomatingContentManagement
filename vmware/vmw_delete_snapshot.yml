@@ -11,4 +11,3 @@
 
   tasks:
   - include_tasks: tasks/snapshot_action.yml
-    loop: "{{ query('inventory_hostnames', 'all') }}"
