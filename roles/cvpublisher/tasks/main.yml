@@ -22,11 +22,9 @@
       validate_certs: "{{ sat_validate_certs }}"
       content_view: "{{ item.name }}"
       content_view_filter: "{{ item.date_filter_name}}"
-      description: "{{ description }}"
       state: present
       date_type: "updated" # default
       end_date: "{{ filter_enddate }}"
-      inclusion: True
     loop: "{{ content_views | default([], true) }}"
     
   - name: Publish the new content view version
