@@ -2,7 +2,7 @@
 # Delete Host using Satellite
 - name: Delete hosts from specified Satellte/Foreman hostgroups
   hosts: all
-  gather_facts: false
+  gather_facts: true
 
   tasks:
   - name: "Delete the host"
