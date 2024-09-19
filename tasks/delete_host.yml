@@ -8,7 +8,7 @@
     name: "{{ ansible_fqdn }}"
     validate_certs: "{{ sat_validate_certs }}"
     state: absent
-  connection: local
+  delegate_to: localhost
 
 - debug:
     msg: "Success"
