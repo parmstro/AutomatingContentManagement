@@ -5,9 +5,10 @@
     server_url: "{{ sat_server_url }}"
     organization: "{{ sat_organization }}"
     location: "{{ sat_location }}"
-    name: "{{ fqdn }}"
+    name: "{{ ansible_fqdn }}"
     validate_certs: "{{ sat_validate_certs }}"
     state: absent
+  connection: local
 
 - debug:
     msg: "Success"
