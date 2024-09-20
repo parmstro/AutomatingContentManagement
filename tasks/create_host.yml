@@ -62,12 +62,14 @@
     location: "{{ sat_location }}"
     name: "{{ fqdn }}"
     # domain: "{{ domain }}"
-    comment: "{{ host_build_comment }}"
+    comment: "{{ host_build_comment | default(omit) }}"
     hostgroup: "{{ hostgroup }}"
     kickstart_repository: "{{ kickstart_repository }}"
     compute_resource: "{{ compute_resource }}"
     compute_profile: "{{ compute_profile }}"
+    image: "{{ image | default(omit) }}"
     mac: "{{ target_mac }}"
+    ip: "{{ ip | default(omit) }}"
     build: true
     state: present
     compute_attributes:
