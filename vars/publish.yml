@@ -1,0 +1,37 @@
+---
+
+force_publish: true
+filter_enddate: "{{ ansible_date_time.date }}"
+
+content_views:
+  - name: "AAP_Files"
+    date_filter_name: "ErrataByDate"
+  - name: "AAP_Rpms"
+    date_filter_name: "ErrataByDate"
+  - name: "convert2rhel_utils"
+    date_filter_name: "ErrataByDate"
+  - name: "Developer"
+    date_filter_name: "ErrataByDate"
+  - name: "EPEL8"
+    date_filter_name: "ErrataByDate"
+  - name: "EPEL9"
+    date_filter_name: "ErrataByDate"
+  - name: "JBossEAP74"
+    date_filter_name: "ErrataByDate"
+  - name: "JBossWeb5"
+    date_filter_name: "ErrataByDate"
+  - name: "mssqlserver"
+    date_filter_name: "ErrataByDate"
+  - name: "SOE_RHEL8"
+    date_filter_name: "ErrataByDate"
+  - name: "SOE_RHEL9"
+    date_filter_name: "ErrataByDate"
+  - name: "SOE_RHEL9_aarch64"
+    date_filter_name: "ErrataByDate"
+composite_content_views:
+  - name: "SOE9_JBoss"
+  - name: "SOE_AAP"
+  - name: "SOE_AAP_Developer"
+  - name: "SOE_JBoss"
+  - name: "SOE_RHEL8EPEL"
+  - name: "SOE_RHEL9EPEL"

@@ -1,85 +1,107 @@
+---
+
 - name: "Set defaults"
-  set_fact:
+  ansible.builtin.set_fact:
     target_mac: "{{ mac }}"
     compute_resource: "{{ compute_resource }}"
 
 - name: "Get MAC of bare metal machine"
-  block:
-  - name: Get info on discovered hosts that meet criteria
-    include_tasks: tasks/get_foreman_list.yml
-    vars:
-      sat_resource: "{{ discovered_hosts_resouce }}"
-      sat_search_string: "{{ discovered_hosts_search }}"
-      sat_username: "{{ sat_publisher_username }}"
-      sat_password: "{{ sat_publisher_password }}"
-    # sets variables list and resources
-
-  - set_fact:
-      discovered_hosts_resources: "{{ resources }}"
-  
-  - debug:
-      var: discovered_hosts_resources
-    when: debugger == true
-
-  - set_fact:
-      discovered_mac: "{{ dhr.mac }}"
-      discovered_name: "{{ dhr.name }}"
-    # when condition is using > to account for local interface always in list
-    when: dhr.facts_hash.interfaces.split(',')|length > discovered_host_req_nic_count
-    loop: "{{ discovered_hosts_resources }}"
-    loop_control:
-      loop_var: dhr
-    register: hosts_macs_results
-    
-  - debug:
-      var: hosts_macs_results
-    when: debugger == true
-    
-  - name: "Selecting first discovered host matching criteria"
-    set_fact:
-      target: "{{ hosts_macs_results.results | json_query('[].ansible_facts') | list | shuffle | first  }}"
-  
-  - set_fact:
-      target_mac: "{{ target.discovered_mac }}"
-      target_name: "{{ target.discovered_name }}"
-
-  - debug:
-      var: 
-        - target_mac
-        - target_name
-    when: debugger == true
-        
   when: compute_resource == "Baremetal" and mac == "ff:ff:ff:ff:ff:ff"
   delegate_to: localhost
+  block:
+    - name: "Get info on discovered hosts that meet criteria"
+      ansible.builtin.include_tasks: tasks/get_foreman_list.yml
+      vars:
+        sat_resource: "{{ discovered_hosts_resouce }}"
+        sat_search_string: "{{ discovered_hosts_search }}"
+        sat_username: "{{ sat_publisher_username }}"
+        sat_password: "{{ sat_publisher_password }}"
+    # sets variables list and resources
 
-# using sync'd content - this is messy
+    - name: "Assign the Discovered Hosts"
+      ansible.builtin.set_fact:
+      discovered_hosts_resources: "{{ resources }}"
+
+    - name: "Debug output"
+      ansible.builtin.debug:
+        var: discovered_hosts_resources
+      when: debugger
+
+    - name: "Extract system facts"
+      ansible.builtin.set_fact:
+        discovered_mac: "{{ dhr.mac }}"
+        discovered_name: "{{ dhr.name }}"
+      # when condition is using > to account for local interface always in list
+      when: dhr.facts_hash.interfaces.split(',')|length > discovered_host_req_nic_count
+      loop: "{{ discovered_hosts_resources }}"
+      loop_control:
+        loop_var: dhr
+      register: hosts_macs_results
+
+    - name: "Debug output"
+      ansible.builtin.debug:
+        var: hosts_macs_results
+      when: debugger
+
+    - name: "Selecting first discovered host matching criteria"
+      ansible.builtin.set_fact:
+        target: "{{ hosts_macs_results.results | json_query('[].ansible_facts') | list | shuffle | first }}"
+
+    - name: "Assign selected system facts"
+      ansible.builtin.set_fact:
+        target_mac: "{{ target.discovered_mac }}"
+        target_name: "{{ target.discovered_name }}"
+
+    - name: "Debug output"
+      ansible.builtin.debug:
+        var:
+          - target_mac
+          - target_name
+      when: debugger
+
 - name: "Deploy the virtual host"
+  when: compute_resource != "Baremetal" and deploy
+  delegate_to: localhost
   redhat.satellite.host:
-    username: "{{ sat_publisher_username }}"
-    password: "{{ sat_publisher_password }}"
-    server_url: "{{ sat_server_url }}"
-    organization: "{{ sat_organization }}"
-    location: "{{ sat_location }}"
-    name: "{{ fqdn }}"
-    # domain: "{{ domain }}"
-    comment: "{{ host_build_comment | default(omit) }}"
-    hostgroup: "{{ hostgroup }}"
-    kickstart_repository: "{{ kickstart_repository }}"
-    compute_resource: "{{ compute_resource }}"
-    compute_profile: "{{ compute_profile }}"
-    image: "{{ image | default(omit) }}"
-    mac: "{{ target_mac }}"
-    ip: "{{ ip | default(omit) }}"
-    build: true
+    username: "{{ sat_publisher_username }}"          # << Required
+    password: "{{ sat_publisher_password }}"          # << Required
+    server_url: "{{ sat_server_url }}"                # << Required
+    organization: "{{ sat_organization }}"            # << Required
+    location: "{{ sat_location }}"                    # << Required
+    name: "{{ chfhg_fqdn }}"                          # << Required
+    hostgroup: "{{ chfhg_hostgroup }}"                # << Required
+    compute_resource: "{{ chfhg_compute_resource }}"  # << Required
+    compute_profile: "{{ chfhg_compute_profile }}"    # << Required
+    provision_method: "{{ chfhg_provision_method | default('build')}}"  # [build | image | bootdisk] when "image", chfhg_image value is required
+    build: true                                                         # when "build", chfhg_kickstart_repository is required
     state: present
-    compute_attributes:
-      start: "1"
+    image: "{{ chfhg_image | default(omit) }}"
+    kickstart_repository: "{{ chfhg_kickstart_repository | default(omit) }}"
+    activation_keys: "{{ chfhg_activation_keys | default(omit) }}"
+    architecture: "{{ chfhg_architecture | default(omit) }}"
+    comment: "{{ chfhg_host_build_comment | default(omit) }}"
+    compute_attributes: "{{ chfhg_compute_attributes | default (omit) }}"
+    content_source: "{{ chfhg_content_source | default(omit) }}"
+    content_view: "{{ chfhg_content_view | default(omit) }}"
+    domain: "{{ chfhg_domain | default(omit) }}"
+    interfaces_attributes: "{{ chfhg_interface_attributes | default(omit) }}"
+    lifecycle_environment: "{{ chfhg_lifecycle_environment | default(omit) }}"
+    mac: "{{ target_mac | default(omit) }}"
+    openscap_proxy: "{{ chfhg_openscap_proxy | default(omit) }}"
+    operatingsystem: "{{ chfhg_operating_system | default(omit) }}"
+    owner: "{{ chfhg_owner | default(omit) }}"
+    owner_group: "{{ chfhg_owner_group | default(omit) }}"
+    parameters: "{{ chfhg_parameters_dictionary | default(omit) }}"
+    ptable: "{{ chfhg_partition_table | default(omit) }}"
+    pxe_loader: "{{ chfhg_pxe_loader | default(omit) }}"
+    realm: "{{ chfhg_realm | default(omit) }}"
+    root_pass: "{{ chfhg_root_password | default(omit) }}"
     validate_certs: "{{ sat_validate_certs }}"
   register: deploy_response
-  when: compute_resource != "Baremetal" and deploy == true
-  delegate_to: localhost
 
 - name: "Deploy the Bare Metal host"
+  when: compute_resource == "Baremetal" and deploy
+  delegate_to: localhost
   redhat.satellite.host:
     username: "{{ sat_publisher_username }}"
     password: "{{ sat_publisher_password }}"
@@ -97,49 +119,50 @@
       start: "1"
     validate_certs: "{{ sat_validate_certs }}"
   register: deploy_response
-  when: compute_resource == "Baremetal" and deploy == true
-  delegate_to: localhost
 
-- debug:
+- name: "Debug output"
+  ansible.builtin.debug:
     var: deploy_response
-  when: debugger == true
+  when: debugger
 
-- name: Restart the host
-  uri:
+- name: "Restart the host"
+  when: compute_resource == "Baremetal"
+  delegate_to: localhost
+  ansible.builtin.uri:
     url: "{{ sat_server_url }}/api/v2/discovered_hosts/{{ target_name }}/reboot"
     method: PUT
     user: "{{ sat_publisher_username }}"
     password: "{{ sat_publisher_password }}"
-    force_basic_auth: yes
+    force_basic_auth: true
     validate_certs: "{{ sat_validate_certs }}"
     status_code: 200
     headers:
       Content-Type: application/json
       Accept: :application/json,version=2
   register: restart_response
+
+- name: "Debug output"
+  ansible.builtin.debug:
+    var: restart_response
+  when: compute_resource == "Baremetal" and debugger
+
+- name: "Remove the discovered host entry"
   when: compute_resource == "Baremetal"
   delegate_to: localhost
-
-- debug:
-    var: restart_response
-  when: compute_resource == "Baremetal" and debugger == true
-
-- name: Remove the discovered host entry
-  uri:
+  ansible.builtin.uri:
     url: "{{ sat_server_url }}/api/v2/discovered_hosts/{{ target_name }}"
     method: DELETE
     user: "{{ sat_publisher_username }}"
     password: "{{ sat_publisher_password }}"
-    force_basic_auth: yes
+    force_basic_auth: true
     validate_certs: "{{ sat_validate_certs }}"
     status_code: 200
     headers:
       Content-Type: application/json
       Accept: :application/json,version=2
   register: remove_response
-  when: compute_resource == "Baremetal"
-  delegate_to: localhost
 
-- debug:
+- name: "Debug output"
+  ansible.builtin.debug:
     var: remove_response
-  when: compute_resource == "Baremetal" and debugger == true
+  when: compute_resource == "Baremetal" and debugger

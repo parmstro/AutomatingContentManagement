@@ -1,54 +1,18 @@
 ---
-# This role expects a list of content views as input. See sample variables in vars/all.yml
-# Currently the content_view_version is blocking - parallelizing this requires using async tasks and polling
-# Mileage will vary depending on the size of your content views. This is left as an exercise for the reader...
-# See: https://docs.ansible.com/ansible/latest/user_guide/playbooks_async.html
-# All Content Views should be published before any Composite Content views - the blocking nature of the call ensures this today.
+# This determines if we should publish a content view version
+# based on whether
+#    skip_publish_all has been set to true
+#    the content view has been published within cv.publication_threshold_hours
+#    the content view has been set to force_publish
 
-# TODO: implement skip if date is the same and force to publish regardless
+- name: "Configure publication requirements"
+  ansible.builtin.set_fact:
+    publish_content: false                       # default to false - only publish when necessary
+    hours_since_publication: 8766                # assume the last publication was long ago.. one year - 365.25 days
+    exceeded_publication_threshold_hours: false  # assume we haven't exceeded the threshold
 
-- name: Update the content views when required
-  block:
-  - name: Publishing Content
-    debug:
-      msg: "processing list.. filter end date is {{ filter_enddate }}"
-
-  - name: Update the Errata-by-date filter rule for content views
-    redhat.satellite.content_view_filter_rule:
-      username: "{{ sat_publisher_username }}"
-      password: "{{ sat_publisher_password }}"
-      server_url: "{{ sat_server_url }}"
-      organization: "{{ sat_organization }}"
-      validate_certs: "{{ sat_validate_certs }}"
-      content_view: "{{ item.name }}"
-      content_view_filter: "{{ item.date_filter_name}}"
-      state: present
-      date_type: "updated" # default
-      end_date: "{{ filter_enddate }}"
-    loop: "{{ content_views | default([], true) }}"
-    
-  - name: Publish the new content view version
-    redhat.satellite.content_view_version:
-      username: "{{ sat_publisher_username }}"
-      password: "{{ sat_publisher_password }}"
-      server_url: "{{ sat_server_url }}"
-      content_view: "{{ item.name }}"
-      organization: "{{ sat_organization }}"
-      validate_certs: "{{ sat_validate_certs }}"
-      description: "{{ description }}"
-    loop: "{{ content_views | default([], true) }}"
-    
-
-  - name: Publish the new composite content views version
-    redhat.satellite.content_view_version:
-      username: "{{ sat_publisher_username }}"
-      password: "{{ sat_publisher_password }}"
-      server_url: "{{ sat_server_url }}"
-      content_view: "{{ item.name }}"
-      organization: "{{ sat_organization }}"
-      validate_certs: "{{ sat_validate_certs }}"
-      description: "{{ description }}"
-    loop: "{{ composite_content_views | default([], true) }}"
-
-  when: force_publish == true
-
+- name: "Process Content View {{ cv.name }}"
+  ansible.builtin.include_tasks: "process_cv.yml"
+  loop: "{{ content_views }}"
+  loop_control:
+    loop_var: cv

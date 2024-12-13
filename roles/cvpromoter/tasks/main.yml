@@ -4,34 +4,30 @@
 # TODO: implement skip if date is the same and force to publish regardless
 
 - name: Promote the content views when required
+  when: force_promote
   block:
-  - name: Promote the configured content views
-    redhat.satellite.content_view_version:
-      username: "{{ sat_publisher_username }}"
-      password: "{{ sat_publisher_password }}"
-      server_url: "{{ sat_server_url }}"
-      organization: "{{ sat_organization }}"
-      validate_certs: "{{ sat_validate_certs }}"
-      content_view: "{{ item.name }}"
-      description: "{{ description }}"
-      current_lifecycle_environment: "{{ current_lce }}"
-      lifecycle_environments: "{{ target_lce }}"
-    loop: "{{ content_views | default([], true) }}"
+    - name: Promote the configured content views
+      redhat.satellite.content_view_version:
+        username: "{{ sat_publisher_username }}"
+        password: "{{ sat_publisher_password }}"
+        server_url: "{{ sat_server_url }}"
+        organization: "{{ sat_organization }}"
+        validate_certs: "{{ sat_validate_certs }}"
+        content_view: "{{ item.name }}"
+        description: "{{ description }}"
+        current_lifecycle_environment: "{{ source_lce }}"
+        lifecycle_environments: "{{ target_lce }}"
+      loop: "{{ content_views | default([], true) }}"
 
-  - name: Promote the configured composite content views
-    redhat.satellite.content_view_version:
-      username: "{{ sat_publisher_username }}"
-      password: "{{ sat_publisher_password }}"
-      server_url: "{{ sat_server_url }}"
-      organization: "{{ sat_organization }}"
-      validate_certs: "{{ sat_validate_certs }}"
-      content_view: "{{ item.name }}"
-      description: "{{ description }}"
-      current_lifecycle_environment: "{{ current_lce }}"
-      lifecycle_environments: "{{ target_lce }}"
-    loop: "{{ composite_content_views | default([], true) }}"
-
-  when: force_promote == true
-
-  # Always promote if force promote is true
-  
+    - name: Promote the configured composite content views
+      redhat.satellite.content_view_version:
+        username: "{{ sat_publisher_username }}"
+        password: "{{ sat_publisher_password }}"
+        server_url: "{{ sat_server_url }}"
+        organization: "{{ sat_organization }}"
+        validate_certs: "{{ sat_validate_certs }}"
+        content_view: "{{ item.name }}"
+        description: "{{ description }}"
+        current_lifecycle_environment: "{{ source_lce }}"
+        lifecycle_environments: "{{ target_lce }}"
+      loop: "{{ composite_content_views | default([], true) }}"

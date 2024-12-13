@@ -1,0 +1,19 @@
+---
+
+force_promote: true
+description: "Promoted by Ansible using rhis-builder"
+source_lce: "Library"
+target_lce: "SOE_Development"
+
+content_views:
+  - name: "SOE_RHEL8"
+  - name: "SOE_RHEL9"
+  - name: "SOE_RHEL9_aarch64"
+
+composite_content_views:
+  - name: "SOE_AAP"
+  - name: "SOE_AAP_Developer"
+  - name: "SOE_JBoss"
+  - name: "SOE9_JBoss"
+  - name: "SOE_RHEL8EPEL"
+  - name: "SOE_RHEL9EPEL"

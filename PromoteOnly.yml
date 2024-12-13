@@ -2,12 +2,23 @@
 # This play promotes the configured Content Views and Composite Content Views to the specified life cycle environments
 # This is intended for periodic scheduled view promotion rather than CV/CCV general maintenance.
 # This is intended for use with an Ansible Automation Platform Workflow
-# In a workflow model we will call this role multiple times with different configurations during the workflow 
-# as we build systems and perform various tests. 
+# In a workflow model we will call this role multiple times with different configurations during the workflow
+# as we build systems and perform various tests.
 
 - name: Publish the configured Content Views and Composite Content Views
-  hosts: all
-  
-  roles:
-  - cvpromoter
-  
+  hosts: controller
+
+  tasks:
+    - name: "Load the vault variables"
+      when: vault_path is defined
+      ansible.builtin.include_vars:
+        file: "{{ vault_path }}"
+
+    - name: "Load the other variables"
+      when: vars_path is defined
+      ansible.builtin.include_vars:
+        file: "{{ vars_path }}"
+
+    - name: "Run the Promote role"
+      ansible.builtin.include_role:
+        name: cvpromoter

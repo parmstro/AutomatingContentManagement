@@ -1,0 +1,98 @@
+---
+# Called for each content view in content_views
+
+- name: "Get content view info: {{ cv.name }}"
+  redhat.satellite.content_view_info:
+    username: "{{ satellite_admin_username }}"
+    password: "{{ satellite_admin_password }}"
+    server_url: "{{ satellite_url }}"
+    organization: "{{ satellite_organization }}"
+    validate_certs: "{{ satellite_validate_certs }}"
+    name: "{{ cv.name }}"
+  register: cv_info
+  changed_when: false
+
+# Satellite returns the time for these values in UTC
+- name: "Determine hours since last publication time"
+  when: cv_info.content_view.last_published
+  ansible.builtin.set_fact:
+    hours_since_publication: "{{ (now(utc=true) - (cv_info.content_view.last_published[:-4] | to_datetime)).seconds / 3600 | float }}"
+
+- name: "Print hours since last publication"
+  ansible.builtin.debug:
+    var: hours_since_publication
+
+- name: "Determine if we have exceeded publication threshold hours"
+  when:
+    - cv.publication_threshold_hours is defined
+    - (hours_since_publication|float) > (cv.publication_threshold_hours|float)
+  ansible.builtin.set_fact:
+    exceeded_publication_threshold_hours: true
+
+- name: "If we have exceeded the threshold and skip_publish_all is false, Publish"
+  when:
+    - exceeded_publication_threshold_hours
+    - not skip_publish_all
+  ansible.builtin.set_fact:
+    publish_content: true
+
+- name: "If we been asked to force publish *this* content view, Publish"
+  when: (cv.force_publish is defined and cv.force_publish)
+  ansible.builtin.set_fact:
+    publish_content: true
+
+- name: "If the filter end date has been specified by the config set the enddate, otherwise default to today"
+  when: 
+
+- name: "If we are being asked force the publication or update the date filter, update the date filter"
+  when: ((cv.force_publish is defined and cv.force_publish) or (cv.updatedatefilter is defined and cv.updatedatefilter))
+  redhat.satellite.content_view_filter_rule:
+      username: "{{ sat_publisher_username }}"
+      password: "{{ sat_publisher_password }}"
+      server_url: "{{ sat_server_url }}"
+      organization: "{{ sat_organization }}"
+      validate_certs: "{{ sat_validate_certs }}"
+      content_view: "{{ cv.name }}"
+      content_view_filter: "{{ cv.date_filter_name }}"
+      state: present
+      date_type: "{{ cv.date_type | default('updated') }}"
+      end_date: "{{ filter_enddate }}"
+
+
+- name: "Publishing content view - {{ cv.name }}"
+  when: publish_content
+  redhat.satellite.content_view_version:
+    username: "{{ satellite_admin_username }}"
+    password: "{{ satellite_admin_password }}"
+    server_url: "{{ satellite_url }}"
+    organization: "{{ satellite_organization }}"
+    validate_certs: "{{ satellite_validate_certs }}"
+    content_view: "{{ cv.name }}"
+    description: "{{ cv.description | default(omit) }}"
+    version: "{{ cv.version | default(omit) }}" # default is a new version
+    lifecycle_environments: "{{ cv.environments | default(omit) }}" # underlying default is publish new version to the library
+    state: "{{ cv.state | default(omit) }}" # underlying default is present
+  async: "{{ cv_publish_timeout | default(14400) }}"
+  poll: "{{ cv_publish_retry_interval | default(15) }}"
+
+    - name: Publish the new content view version
+      redhat.satellite.content_view_version:
+        username: "{{ sat_publisher_username }}"
+        password: "{{ sat_publisher_password }}"
+        server_url: "{{ sat_server_url }}"
+        content_view: "{{ item.name }}"
+        organization: "{{ sat_organization }}"
+        validate_certs: "{{ sat_validate_certs }}"
+        description: "{{ description }}"
+      loop: "{{ content_views | default([], true) }}"
+
+    - name: Publish the new composite content views version
+      redhat.satellite.content_view_version:
+        username: "{{ sat_publisher_username }}"
+        password: "{{ sat_publisher_password }}"
+        server_url: "{{ sat_server_url }}"
+        content_view: "{{ item.name }}"
+        organization: "{{ sat_organization }}"
+        validate_certs: "{{ sat_validate_certs }}"
+        description: "{{ description }}"
+      loop: "{{ composite_content_views | default([], true) }}"

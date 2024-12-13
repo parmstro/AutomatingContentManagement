@@ -1,0 +1,5 @@
+---
+
+collections:
+  - name: redhat.satellite
+    version: '5.0.0'
